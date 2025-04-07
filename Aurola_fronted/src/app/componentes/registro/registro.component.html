@@ -1,0 +1,68 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h2 class="card-title text-center mb-4">Registrarse</h2>
+
+          <form (ngSubmit)="register()" enctype="multipart/form-data" novalidate>
+            <div class="mb-3">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="nombre" [(ngModel)]="nombre" name="nombre" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="email" [(ngModel)]="email" name="email" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password1" class="form-label">Contraseña</label>
+              <input type="password" class="form-control" id="password1" [(ngModel)]="password1" name="password1" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="password2" class="form-label">Confirmar Contraseña</label>
+              <input type="password" class="form-control" id="password2" [(ngModel)]="password2" name="password2" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="rol" class="form-label">Rol</label>
+              <select class="form-select" id="rol" [(ngModel)]="rol" name="rol" required>
+                <option value="" disabled selected>Selecciona un rol</option>
+                <option value="profesor">Profesor</option>
+                <option value="estudiante">Estudiante</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="tipo_cuenta" class="form-label">Tipo de Cuenta</label>
+              <select class="form-select" id="tipo_cuenta" [(ngModel)]="tipo_cuenta" name="tipo_cuenta" required>
+                <option value="" disabled selected>Selecciona tipo de cuenta</option>
+                <option value="FR">Gratuita</option>
+                <option value="PR">Premium</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="foto_perfil" class="form-label">Foto de Perfil (opcional)</label>
+              <input type="file" class="form-control" id="foto_perfil" (change)="onFileSelected($event)" name="foto_perfil">
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary">Registrarse</button>
+            </div>
+          </form>
+
+          <div *ngIf="successMessage" class="alert alert-success mt-3">
+            {{ successMessage }}
+          </div>
+
+          <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+            {{ errorMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
