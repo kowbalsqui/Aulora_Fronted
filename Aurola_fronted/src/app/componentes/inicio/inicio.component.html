@@ -1,0 +1,63 @@
+<div class="container mt-5" *ngIf="authService.isLoggedIn(); else registroRequerido">
+
+  <h2 class="mb-4">Tus Cursos</h2>
+
+  <div *ngIf="mis_cursos.length === 0" class="alert alert-info">
+    No estás inscrito en ningún curso todavía.
+
+    Objetivos para mañana Martes: 
+
+    - Hacer la pagina de perfil obligatorio (incluir la imagen por defecto, investigar)
+    - Opcional si da tiempo, hacer la página de cursos, solo sin funcionalidad de momento
+    
+  </div>
+
+  <div class="row" *ngIf="mis_cursos.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let curso of mis_cursos">
+      <div class="card border-primary h-100 shadow-sm">
+        <div class="card-header bg-primary text-white">
+          {{ curso.titulo }}
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ curso.descripcion }}</p>
+          <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
+          <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+          <button class="btn btn-outline-primary w-100 mt-2">Entrar al curso</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="my-5">
+
+  <h4>Sugerencias de cursos</h4>
+
+  <div *ngIf="cursos.length === 0" class="alert alert-secondary">
+    No hay sugerencias disponibles.
+  </div>
+
+  <div class="row" *ngIf="cursos.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ curso.titulo }}</h5>
+          <p class="card-text">{{ curso.descripcion }}</p>
+          <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
+          <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+          <button class="btn btn-success w-100 mt-2">Apuntarme</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #registroRequerido>
+  <div class="container mt-5 text-center">
+    <div class="alert alert-warning">
+      <h4 class="alert-heading">¡Ups!</h4>
+      <p>Debes <a routerLink="/login">iniciar sesión</a> o <a routerLink="/registro">registrarte</a> para acceder a los cursos.</p>
+    </div>
+  </div>
+</ng-template>
+
+  
