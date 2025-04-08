@@ -1,8 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4 position-relative">
   <div class="container-fluid">
     <!-- Logo Aulora -->
     <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="../assets/img/Aulora.png" alt="Aulora Logo" width="40" height="40" class="me-2">
+      <img src="../assets/img/Aulora.png" alt="Aulora Logo" width="40" height="40" class="me-2 rounded-circle">
       <span class="fs-4 fw-bold">Aulora</span>
     </a>
 
@@ -16,17 +16,21 @@
     <div class="ms-auto d-flex align-items-center gap-2">
       <ng-container *ngIf="authService.isLoggedIn(); else guestButtons">
         <span class="me-2">{{ authService.getUser()?.nombre }}</span>
+
+        <!-- Imagen de perfil que abre el panel -->
         <img
+          (click)="mostrarPerfil = true"
           *ngIf="authService.getUser()?.foto_perfil"
           [src]="'http://localhost:8000/' + authService.getUser()?.foto_perfil"
           alt="Foto de perfil"
           width="60"
           height="60"
           class="rounded-circle me-2 border"
+          style="cursor: pointer;"
         />
-        <button class="btn btn-outline-danger" (click)="logout()">Cerrar Sesión</button>
       </ng-container>
 
+      <!-- Si no está logueado -->
       <ng-template #guestButtons>
         <a routerLink="/login" class="btn btn-outline-primary">Iniciar Sesión</a>
         <a routerLink="/register" class="btn btn-primary">Registrarse</a>
@@ -34,5 +38,46 @@
     </div>
   </div>
 </nav>
+
+<!-- Panel desplegable del perfil -->
+<div class="offcanvas offcanvas-end show"
+     tabindex="-1"
+     [ngClass]="{ 'show': mostrarPerfil }"
+     [style.visibility]="mostrarPerfil ? 'visible' : 'hidden'"
+     style="width: 320px; background-color: #fff; z-index: 2000; transition: all 0.3s ease-in-out; position: fixed; top: 0; right: 0; height: 100vh;">
+  <div class="offcanvas-header border-bottom">
+    <h5 class="offcanvas-title">Perfil de Usuario</h5>
+    <button type="button" class="btn-close" (click)="mostrarPerfil = false"></button>
+  </div>
+  <div class="offcanvas-body text-center">
+    <img [src]="'http://localhost:8000/' + authService.getUser()?.foto_perfil"
+         class="rounded-circle mb-3 border"
+         width="100" height="100" alt="Foto">
+
+    <h5>{{ authService.getUser()?.nombre }}</h5>
+    <p class="text-muted">{{ authService.getUser()?.email }}</p>
+
+    <!-- Rol con texto -->
+    <ng-container [ngSwitch]="authService.getUser()?.rol">
+      <span *ngSwitchCase="'1'" class="badge bg-dark me-1">Administrador</span>
+      <span *ngSwitchCase="'2'" class="badge bg-primary me-1">Profesor</span>
+      <span *ngSwitchCase="'3'" class="badge bg-secondary me-1">Estudiante</span>
+    </ng-container>
+    
+
+    <!-- Tipo de cuenta con texto -->
+    <div class="mb-3">
+      <ng-container [ngSwitch]="authService.getUser()?.tipo_cuenta">
+        <span *ngSwitchCase="'FR'" class="badge bg-success">Cuenta Gratuita</span>
+        <span *ngSwitchCase="'PR'" class="badge bg-info text-dark">Cuenta Premium</span>
+        <span *ngSwitchDefault class="badge bg-warning text-dark">Tipo desconocido</span>
+      </ng-container>
+    </div>
+
+    <hr class="my-4" />
+    <a routerLink="/perfil" class="btn btn-outline-secondary btn-sm w-100 mb-2">Modificar perfil</a>
+    <button class="btn btn-outline-danger btn-sm w-100" (click)="logout()">Cerrar Sesión</button>
+  </div>
+</div>
 
 <router-outlet></router-outlet>
