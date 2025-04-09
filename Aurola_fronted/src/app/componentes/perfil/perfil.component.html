@@ -1,0 +1,52 @@
+<div class="container mt-5" style="max-width: 600px;">
+    <h2 class="mb-4 text-center">Editar Perfil</h2>
+  
+    <form (ngSubmit)="actualizarPerfil()">
+      <!-- Imagen de perfil -->
+      <div class="text-center mb-4">
+        <label for="fotoPerfilInput" class="position-relative d-inline-block" style="cursor: pointer;">
+          <img
+            [src]="authService.getUser()?.foto_perfil ? 'http://localhost:8000/' + authService.getUser()?.foto_perfil : 'assets/img/user-default.png'"
+            alt="Foto de perfil"
+            width="150"
+            height="150"
+            class="rounded-circle border shadow"
+          />
+          <input type="file" id="fotoPerfilInput" (change)="onFileSelect($event)" hidden />
+          <div class="position-absolute bottom-0 start-50 translate-middle-x bg-white p-1 rounded shadow-sm" style="font-size: 0.9rem;">
+            Cambiar foto
+          </div>
+        </label>
+      </div>
+  
+      <!-- Nombre -->
+      <div class="mb-3">
+        <label class="form-label">Nombre</label>
+        <input type="text" class="form-control" [(ngModel)]="nombre" name="nombre" required />
+      </div>
+  
+      <!-- Tipo de cuenta -->
+      <div class="mb-3">
+        <label class="form-label">Tipo de Cuenta</label>
+        <select class="form-select" [(ngModel)]="tipo_cuenta" name="tipo_cuenta" required>
+          <option value="FR">Gratuita</option>
+          <option value="PR">Premium</option>
+        </select>
+      </div>
+  
+      <!-- Contraseña -->
+      <div class="mb-3">
+        <label class="form-label">Nueva Contraseña</label>
+        <input type="password" class="form-control" [(ngModel)]="contrasena" name="contrasena" />
+      </div>
+  
+      <div class="d-grid">
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+      </div>
+  
+      <!-- Mensajes -->
+      <div *ngIf="susscesMessage" class="alert alert-success mt-3">{{ susscesMessage }}</div>
+      <div *ngIf="errorMesssage" class="alert alert-danger mt-3">{{ errorMesssage }}</div>
+    </form>
+  </div>
+  
