@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
   imports:[RouterModule, CommonModule]
 })
 export class AppComponent {
+  mostrarPerfil = false;
+
   constructor(private router: Router, public authService: AuthService) {}
 
   goToLogin() {
@@ -28,6 +30,7 @@ export class AppComponent {
     //Cerra la sesion del usuario
     this.authService.logout();
     this.router.navigate(['/']);
+    this.mostrarPerfil = false; 
   }
   
 }
