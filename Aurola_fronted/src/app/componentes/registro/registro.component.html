@@ -35,6 +35,12 @@
               </select>
             </div>
 
+            <!-- Mostrar materia solo si el rol es profesor -->
+            <div class="mb-3" *ngIf="rol === 'profesor'">
+              <label for="materia" class="form-label">Materia que imparte</label>
+              <input type="text" class="form-control" id="materia" [(ngModel)]="materia" name="materia" required>
+            </div>
+
             <div class="mb-3">
               <label for="tipo_cuenta" class="form-label">Tipo de Cuenta</label>
               <select class="form-select" id="tipo_cuenta" [(ngModel)]="tipo_cuenta" name="tipo_cuenta" required>

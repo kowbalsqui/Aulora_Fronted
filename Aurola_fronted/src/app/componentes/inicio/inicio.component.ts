@@ -15,6 +15,8 @@ import { AuthService } from '../../services/auth.service';
 export class InicioComponent implements OnInit {
   cursos: any[] = [];
   mis_cursos: any[] = [];
+  itinerarios: any[] = [];
+  mis_itinerarios: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -38,12 +40,30 @@ export class InicioComponent implements OnInit {
         }
       });
 
+      this.http.get<any[]>('http://localhost:8000/api/v1/mis-itinerarios', { headers}).subscribe({
+        next: (res) =>{
+          this.mis_itinerarios = res;
+        },
+        error: (err)=>{
+          console.error('Error al cargar los itinerarios:', err);
+        }
+      });
+
       this.http.get<any[]>('http://localhost:8000/api/v1/cursos/', { headers }).subscribe({
         next: (res) => {
           this.cursos = res;
         },
         error: (err) => {
           console.error('Error al cargar cursos:', err);
+        }
+      });
+
+      this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/', { headers }).subscribe({
+        next: (res) =>{
+          this.itinerarios = res; 
+        },
+        error: (err) =>{
+          console.error('Error al cargar los itinerarios', err); 
         }
       });
     }

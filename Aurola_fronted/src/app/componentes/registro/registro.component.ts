@@ -18,6 +18,7 @@ export class RegistroComponent {
   rol = 'profesor'; // Valor por defecto
   tipo_cuenta = 'FR';
   foto_perfil: File | null = null;
+  materia = ''; 
 
   successMessage = '';
   errorMessage = '';
@@ -48,6 +49,9 @@ export class RegistroComponent {
     formData.append('password2', this.password2);
     formData.append('rol', rolMap[this.rol]);
     formData.append('tipo_cuenta', this.tipo_cuenta);
+    if (this.rol === 'profesor'){
+      formData.append('materia', this.materia);
+    }
 
     if (this.foto_perfil) {
       formData.append('foto_perfil', this.foto_perfil);

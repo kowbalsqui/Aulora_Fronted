@@ -51,6 +51,18 @@ export class AuthService {
     return null;
   }
 
+  getRol():number {
+    return this.getUser()?.rol; 
+  }
+
+  isEstudiante(): boolean {
+    return this.getRol() == 3; 
+  }
+
+  isProfesor(): boolean {
+    return this.getRol() == 2; 
+  }
+
   isLoggedIn(): boolean {
     return !!this.getToken();
   }

@@ -1,15 +1,22 @@
 <div class="container mt-5" *ngIf="authService.isLoggedIn(); else registroRequerido">
 
-  <h2 class="mb-4">Tus Cursos</h2>
+  <!-- BOTÓN PARA PROFESORES -->
+  <div *ngIf="authService.isProfesor()" class="mb-4 text-end">
+    <button class="btn btn-outline-primary">➕ Añadir nuevo curso</button>
+  </div>
+
+  <!-- CURSOS INSCRITOS -->
+   <div *ngIf="authService.isEstudiante()" class="mb-4 container mt-5">
+    <h2 class="mb-4">Tus Cursos e Itinerarios</h2>
+
+    <h4>Mis Cursos</h4>
 
   <div *ngIf="mis_cursos.length === 0" class="alert alert-info">
     No estás inscrito en ningún curso todavía.
 
     Objetivos para mañana Martes: 
-
     - Hacer la pagina de perfil obligatorio (incluir la imagen por defecto, investigar)
     - Opcional si da tiempo, hacer la página de cursos, solo sin funcionalidad de momento
-    
   </div>
 
   <div class="row" *ngIf="mis_cursos.length > 0">
@@ -28,9 +35,45 @@
     </div>
   </div>
 
+  <h4>Mis Itinerarios</h4>
+
+  <div *ngIf="mis_itinerarios.length === 0" class="alert alert-info">
+    No estás inscrito en ningún itinerario todavía.
+
+    Objetivos para mañana Martes: 
+    - Hacer la pagina de perfil obligatorio (incluir la imagen por defecto, investigar)
+    - Opcional si da tiempo, hacer la página de cursos, solo sin funcionalidad de momento
+  </div>
+
+  <div class="row" *ngIf="mis_itinerarios.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let itinerario of mis_itinerarios">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ itinerario.titulo }}</h5>
+          <p class="card-text">{{ itinerario.descripcion }}</p>
+
+          <div *ngIf="itinerario.cursos.length > 0">
+            <h6 class="mt-3">Cursos incluidos:</h6>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" *ngFor="let curso of itinerario.cursos">
+                <strong>{{ curso.titulo }}</strong><br>
+                <small>{{ curso.descripcion }}</small>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Botón según rol -->
+          <button class="btn btn-success w-100 mt-3" *ngIf="authService.isEstudiante()">Apuntarme</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <hr class="my-5">
 
-  <h4>Sugerencias de cursos</h4>
+  <h4 class="text-center">Sugerencias de cursos</h4>
+
+  <br>
 
   <div *ngIf="cursos.length === 0" class="alert alert-secondary">
     No hay sugerencias disponibles.
@@ -44,13 +87,106 @@
           <p class="card-text">{{ curso.descripcion }}</p>
           <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
           <p><strong>Precio:</strong> {{ curso.precio }} €</p>
-          <button class="btn btn-success w-100 mt-2">Apuntarme</button>
+
+          <!-- Botón según rol -->
+          <button class="btn btn-success w-100 mt-2" *ngIf="authService.isEstudiante()">Apuntarme</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+
+  <h4 class="text-center">Sugerencias de Itinerarios</h4>
+
+  <br>
+
+  <div *ngIf="itinerarios.length === 0" class="alert alert-secondary">
+    No hay sugerencias de disponibles de los itinerarios
+  </div>
+
+  <div class="row" *ngIf="itinerarios.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let itinerario of itinerarios">
+      <div class="card h-100 shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ itinerario.titulo }}</h5>
+          <p class="card-text">{{ itinerario.descripcion }}</p>
+
+          <div *ngIf="itinerario.cursos.length > 0">
+            <h6 class="mt-3">Cursos incluidos:</h6>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" *ngFor="let curso of itinerario.cursos">
+                <strong>{{ curso.titulo }}</strong><br>
+                <small>{{ curso.descripcion }}</small>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Botón según rol -->
+          <button class="btn btn-success w-100 mt-3" *ngIf="authService.isEstudiante()">Apuntarme</button>
         </div>
       </div>
     </div>
   </div>
 </div>
+</div>
 
+<div *ngIf="authService.isProfesor()" class="mb-4 container mt-5">
+  <h2 class="mb-4">Cursos e Itinerarios</h2>
+
+  <h4 class="text-center">Cursos</h4>
+
+  <br>
+
+<div class="row" *ngIf="cursos.length > 0">
+  <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
+    <div class="card h-100 shadow">
+      <div class="card-body">
+        <h5 class="card-title">{{ curso.titulo }}</h5>
+        <p class="card-text">{{ curso.descripcion }}</p>
+        <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
+        <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+
+        <!-- Botón según rol -->
+        <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()">Ver curso</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
+  <h4 class="text-center">Itinerarios</h4>
+
+  <br>
+
+<div class="row" *ngIf="itinerarios.length > 0">
+  <div class="col-md-4 mb-3" *ngFor="let itinerario of itinerarios">
+    <div class="card h-100 shadow">
+      <div class="card-body">
+        <h5 class="card-title">{{ itinerario.titulo }}</h5>
+        <p class="card-text">{{ itinerario.descripcion }}</p>
+
+        <div *ngIf="itinerario.cursos.length > 0">
+          <h6 class="mt-3">Cursos incluidos:</h6>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item" *ngFor="let curso of itinerario.cursos">
+              <strong>{{ curso.titulo }}</strong><br>
+              <small>{{ curso.descripcion }}</small>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Botón según rol -->
+        <button class="btn btn-outline-secondary w-100 mt-3" *ngIf="authService.isProfesor()">Ver itinerario</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+<!-- Si no está logueado -->
 <ng-template #registroRequerido>
   <div class="container mt-5 text-center">
     <div class="alert alert-warning">
@@ -59,5 +195,3 @@
     </div>
   </div>
 </ng-template>
-
-  

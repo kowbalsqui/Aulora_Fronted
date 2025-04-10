@@ -15,7 +15,7 @@ export class PerfilComponent {
   nombre = ''; 
   contrasena = ''; 
   tipo_cuenta = ''; 
-  foto_perfil : File | null = null; 
+  foto_perfil : File | null = null;  
   susscesMessage = ''; 
   errorMesssage = ''; 
 
