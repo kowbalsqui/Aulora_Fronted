@@ -2,7 +2,7 @@
 
   <!-- BOTÓN PARA PROFESORES -->
   <div *ngIf="authService.isProfesor()" class="mb-4 text-end">
-    <button class="btn btn-outline-primary">➕ Añadir nuevo curso</button>
+    <a routerLink="/crear-curso" class="btn btn-outline-primary">➕ Añadir nuevo curso</a>
   </div>
 
   <!-- CURSOS INSCRITOS -->
@@ -22,12 +22,20 @@
   <div class="row" *ngIf="mis_cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of mis_cursos">
       <div class="card border-primary h-100 shadow-sm">
+                <!-- Imagen del curso -->
+                <img
+                *ngIf="curso.foto"
+                [src]="curso.foto"
+                alt="{{ curso.titulo }}"
+                class="card-img-top"
+                style="object-fit: cover; height: 180px;"
+              />
         <div class="card-header bg-primary text-white">
           {{ curso.titulo }}
         </div>
         <div class="card-body">
           <p class="card-text">{{ curso.descripcion }}</p>
-          <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
+          <p><strong>Categoría:</strong> {{ curso.categoria_nombre|| 'N/A' }}</p>
           <p><strong>Precio:</strong> {{ curso.precio }} €</p>
           <button class="btn btn-outline-primary w-100 mt-2">Entrar al curso</button>
         </div>
@@ -82,10 +90,18 @@
   <div class="row" *ngIf="cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
       <div class="card h-100 shadow">
+        <!-- Imagen del curso -->
+        <img
+          *ngIf="curso.foto"
+          [src]="curso.foto"
+          alt="{{ curso.titulo }}"
+          class="card-img-top"
+          style="object-fit: cover; height: 180px;"
+        />
         <div class="card-body">
           <h5 class="card-title">{{ curso.titulo }}</h5>
           <p class="card-text">{{ curso.descripcion }}</p>
-          <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
+          <p><strong>Categoría:</strong> {{ curso.categoria_nombre || 'N/A' }}</p>
           <p><strong>Precio:</strong> {{ curso.precio }} €</p>
 
           <!-- Botón según rol -->
@@ -138,21 +154,30 @@
 
   <br>
 
-<div class="row" *ngIf="cursos.length > 0">
-  <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
-    <div class="card h-100 shadow">
-      <div class="card-body">
-        <h5 class="card-title">{{ curso.titulo }}</h5>
-        <p class="card-text">{{ curso.descripcion }}</p>
-        <p><strong>Categoría:</strong> {{ curso.categoria_id?.nombre || 'N/A' }}</p>
-        <p><strong>Precio:</strong> {{ curso.precio }} €</p>
-
-        <!-- Botón según rol -->
-        <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()">Ver curso</button>
+  <div class="row" *ngIf="cursos.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
+      <div class="card h-100 shadow">
+        <!-- Imagen del curso -->
+        <img
+          *ngIf="curso.foto"
+          [src]="curso.foto"
+          alt="{{ curso.titulo }}"
+          class="card-img-top"
+          style="object-fit: cover; height: 180px;"
+        />
+  
+        <div class="card-body">
+          <h5 class="card-title">{{ curso.titulo }}</h5>
+          <p class="card-text">{{ curso.descripcion }}</p>
+          <p><strong>Categoría:</strong> {{ curso.categoria_nombre || 'N/A' }}</p>
+          <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+  
+          <!-- Botón según rol -->
+          <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()">Ver curso</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 <br>
 
