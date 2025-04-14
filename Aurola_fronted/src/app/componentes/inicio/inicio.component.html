@@ -21,7 +21,7 @@
 
   <div class="row" *ngIf="mis_cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of mis_cursos">
-      <div class="card border-primary h-100 shadow-sm">
+      <div class="card border-primary h-100 shadow-sm cursor-pointer" (click)="irAlCurso(curso.id)">
                 <!-- Imagen del curso -->
                 <img
                 *ngIf="curso.foto"
@@ -89,7 +89,7 @@
 
   <div class="row" *ngIf="cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
-      <div class="card h-100 shadow">
+      <div class="card h-100 shadow cursor-pointer" (click)="irAlCurso(curso.id)">
         <!-- Imagen del curso -->
         <img
           *ngIf="curso.foto"
@@ -105,7 +105,7 @@
           <p><strong>Precio:</strong> {{ curso.precio }} €</p>
 
           <!-- Botón según rol -->
-          <button class="btn btn-success w-100 mt-2" *ngIf="authService.isEstudiante()">Apuntarme</button>
+          <button class="btn btn-success w-100 mt-2" (click)="apuntarse(curso)" *ngIf="authService.isEstudiante()">Apuntarme</button>
         </div>
       </div>
     </div>

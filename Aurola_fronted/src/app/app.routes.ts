@@ -5,6 +5,8 @@ import { InicioComponent } from '../../src/app/componentes/inicio/inicio.compone
 import { PerfilComponent } from './componentes/perfil/perfil.component';
 import { ExplorarCursosComponent } from '../app/componentes/buscador-cursos/buscador-cursos.component';
 import { CrearCursoComponent } from './componentes/crear-curso/crear-curso.component';
+import { CursoDetalleComponent } from './componentes/curso-detalle-component/curso-detalle-component.component';
+import { PagosComponent } from './componentes/pagos/pagos.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -13,5 +15,7 @@ export const routes: Routes = [
   { path: 'perfil', component:PerfilComponent},
   { path: 'cursos', component: ExplorarCursosComponent },
   { path: 'crear-curso', component: CrearCursoComponent },
+  { path: 'curso/:id', component: CursoDetalleComponent },
+  { path: 'pago/:id', component: PagosComponent },
 ];
 

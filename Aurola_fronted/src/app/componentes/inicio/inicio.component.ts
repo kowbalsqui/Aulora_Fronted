@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
-
+import { Router } from '@angular/router';
+import { CursoService } from '../../services/curso.service';
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -20,8 +21,14 @@ export class InicioComponent implements OnInit {
 
   constructor(
     private http: HttpClient,
-    public authService: AuthService
+    public authService: AuthService,
+    private router: Router,
+    public cursoService : CursoService
   ) {}
+
+  irAlCurso(id: number) {
+    this.router.navigate(['/curso', id]);
+  }
 
   ngOnInit(): void {
     const token = this.authService.getToken();
@@ -68,4 +75,21 @@ export class InicioComponent implements OnInit {
       });
     }
   }
+
+  apuntarse(curso: any): void {
+    if (curso.precio > 0) {
+      this.router.navigate(['/pago', curso.id]);
+    } else {
+      this.cursoService.inscribirse(curso.id).subscribe({
+        next: () => {
+          alert('Te has inscrito correctamente');
+          this.mis_cursos.push(curso)
+        },
+        error: () => {
+          alert('Error al inscribirte. Intenta de nuevo.');
+        }
+      });
+    }
+  }
+
 }
