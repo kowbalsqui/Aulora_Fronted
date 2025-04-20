@@ -16,8 +16,8 @@ export class PerfilComponent {
   contrasena = ''; 
   tipo_cuenta = ''; 
   foto_perfil : File | null = null;  
-  susscesMessage = ''; 
-  errorMesssage = ''; 
+  susscesMessage : string | null = null;
+  errorMesssage : string | null = null;
 
   constructor (public authService: AuthService, private http: HttpClient, private router: Router){}
 
@@ -50,32 +50,41 @@ export class PerfilComponent {
     this.foto_perfil = event.target.files[0];
   }
 
-  actualizarPerfil (){
-    const token = this.authService.getToken(); 
-    const formData = new FormData(); 
-    formData.append('nombre', this.nombre); 
+  actualizarPerfil() {
+    const token = this.authService.getToken();
+    const formData = new FormData();
+  
+    formData.append('nombre', this.nombre);
     formData.append('tipo_cuenta', this.tipo_cuenta);
-    
-    if(this.contrasena){
+  
+    if (this.contrasena) {
       formData.append('contrasena', this.contrasena);
     }
-
-    if(this.foto_perfil){
-      formData.append('foto_perfil', this.foto_perfil); 
+  
+    if (this.foto_perfil) {
+      formData.append('foto_perfil', this.foto_perfil);
     }
-
+  
     this.http.put('http://localhost:8000/api/v1/perfil/', formData, {
-      headers: {Authorization : 'Token ' + token}
+      headers: { Authorization: 'Token ' + token }
     }).subscribe({
-      next : (res) =>{
-        this.susscesMessage= 'Perfil actualizado correctamemte';
-        this.errorMesssage= '';
+      next: (res) => {
+        this.susscesMessage = 'Perfil actualizado correctamente';
+        this.errorMesssage = '';
+  
+        // Guardamos el nuevo usuario
         this.authService.setAuthData(token!, res);
+
+        this.authService.reloadUser(); // ← Aquí se recarga desde el localStorage
+  
+        // Redirigimos al inicio
+        this.router.navigate(['/']);
       },
-      error : (err) =>{
-        this.susscesMessage = ''; 
-        this.errorMesssage = 'Error al modificar el perfil del usuario'; 
+      error: () => {
+        this.susscesMessage = '';
+        this.errorMesssage = 'Error al modificar el perfil del usuario';
       }
     });
   }
+  
 }

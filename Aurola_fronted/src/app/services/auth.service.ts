@@ -29,6 +29,28 @@ export class AuthService {
     );
   }
 
+  reloadUser(): any {
+    // Verificamos que estamos en el navegador (no en SSR)
+    if (isPlatformBrowser(this.platformId)) {
+      console.log('🔁 Reloading user from localStorage...');
+  
+      // Obtenemos los datos del usuario desde localStorage
+      const user = localStorage.getItem(this.userKey);
+  
+      if (user) {
+        const parsedUser = JSON.parse(user);
+        console.log('✅ Usuario recargado correctamente:', parsedUser);
+        return parsedUser;
+      } else {
+        console.warn('⚠️ No hay datos de usuario en localStorage.');
+        return null;
+      }
+    }
+  
+    console.warn('⚠️ reloadUser llamado fuera del navegador (SSR).');
+    return null;
+  }  
+
   setAuthData(token: string, user: any) {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.setItem(this.tokenKey, token);

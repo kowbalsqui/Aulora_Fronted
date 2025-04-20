@@ -1,34 +1,43 @@
 <div class="container mt-5" *ngIf="!cargando">
-    <div *ngIf="curso">
-      <div class="card mb-4 shadow">
-        <img *ngIf="curso.foto" [src]="curso.foto" class="card-img-top" alt="{{ curso.titulo }}">
-        <div class="card-body">
-          <h2 class="card-title">{{ curso.titulo }}</h2>
-          <p class="card-text">{{ curso.descripcion }}</p>
-          <p><strong>Precio:</strong> {{ curso.precio }} €</p>
-          <p><strong>Categoría:</strong> {{ curso.categoria_nombre }}</p>
-        </div>
-      </div>
-  
-      <!-- Contenido si está inscrito -->
-      <div *ngIf="inscrito; else noInscrito">
-        <h4 class="mb-3">Contenido del curso</h4>
-        <ul class="list-group">
-          <li *ngFor="let modulo of modulos" class="list-group-item">
-            <strong>{{ modulo.titulo }}</strong> - {{ modulo.contenido }}
-          </li>
-        </ul>
-      </div>
-  
-      <!-- Contenido si NO está inscrito -->
-      <ng-template #noInscrito>
-        <div class="alert alert-warning mt-4">
-          No estás inscrito en este curso.
-        </div>
-        <button class="btn btn-primary" (click)="apuntarse()">
-          {{ curso.precio > 0 ? 'Ir a pagar' : 'Apuntarme gratis' }}
-        </button>
-      </ng-template>
+  <div *ngIf="curso">
+    <!-- Mensajes -->
+    <div *ngIf="successMessage" class="alert alert-success text-center">
+      {{ successMessage }}
     </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger text-center">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Información del curso -->
+    <div class="card mb-4 shadow">
+      <img *ngIf="curso.foto" [src]="curso.foto" class="card-img-top" alt="{{ curso.titulo }}">
+      <div class="card-body">
+        <h2 class="card-title">{{ curso.titulo }}</h2>
+        <p class="card-text">{{ curso.descripcion }}</p>
+        <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+        <p><strong>Categoría:</strong> {{ curso.categoria_nombre }}</p>
+      </div>
+    </div>
+
+    <!-- Contenido si está inscrito -->
+    <div *ngIf="inscrito; else noInscrito">
+      <h4 class="mb-3">Contenido del curso</h4>
+      <ul class="list-group">
+        <li *ngFor="let modulo of modulos" class="list-group-item">
+          <strong>{{ modulo.titulo }}</strong> - {{ modulo.contenido }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Contenido si NO está inscrito -->
+    <ng-template #noInscrito>
+      <div class="alert alert-warning mt-4">
+        No estás inscrito en este curso.
+      </div>
+      <button class="btn btn-primary" (click)="apuntarse()">
+        {{ curso.precio > 0 ? 'Ir a pagar' : 'Apuntarme gratis' }}
+      </button>
+    </ng-template>
   </div>
-  
+</div>

@@ -17,6 +17,9 @@ export class CursoDetalleComponent implements OnInit {
   inscrito: boolean = false;
   cargando: boolean = true;
 
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
   constructor(
     private route: ActivatedRoute,
     private cursoService: CursoService,
@@ -38,23 +41,29 @@ export class CursoDetalleComponent implements OnInit {
       error: (err) => {
         this.cargando = false;
         if (err.status === 403) {
-          this.router.navigate(['/']);
-          alert('No estás inscrito en este curso.');
+          this.errorMessage = 'No estás inscrito en este curso.';
+          setTimeout(() => this.router.navigate(['/']), 1500);
+        } else {
+          this.errorMessage = 'Ocurrió un error al cargar el curso.';
         }
       }
     });
   }
 
   apuntarse(): void {
+    this.successMessage = null;
+    this.errorMessage = null;
+
     if (this.curso.precio > 0) {
       this.router.navigate(['/pago', this.curso.id]);
     } else {
       this.cursoService.inscribirse(this.curso.id).subscribe({
         next: () => {
           this.inscrito = true;
+          this.successMessage = 'Te has inscrito correctamente al curso.';
         },
         error: () => {
-          alert('Error al inscribirse');
+          this.errorMessage = 'Error al inscribirse. Intenta de nuevo.';
         }
       });
     }
