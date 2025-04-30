@@ -52,6 +52,9 @@ export class RegistroComponent {
     if (this.rol === 'profesor'){
       formData.append('materia', this.materia);
     }
+    if (this.rol === '2'){
+      formData.append('materia', this.materia);
+    }
 
     if (this.foto_perfil) {
       formData.append('foto_perfil', this.foto_perfil);

@@ -139,7 +139,7 @@
           <p><strong>Precio:</strong> {{ curso.precio }} €</p>
   
           <!-- Botón según rol -->
-          <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()">Ver curso</button>
+          <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()" (click)="irAlCurso(curso.id)">Ver curso</button>
         </div>
       </div>
     </div>

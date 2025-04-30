@@ -78,7 +78,7 @@ export class CrearCursoComponent {
       error: (err) =>{
         this.errorMessage = 'Error al crear el curso'; 
         this.successMessage = "";
-        console.log('Error al crear el curso', err); 
+        console.log('Error al crear el curso', err.error); 
       }
     })
   }

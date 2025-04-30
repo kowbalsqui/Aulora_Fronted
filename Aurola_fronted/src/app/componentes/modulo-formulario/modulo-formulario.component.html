@@ -1,0 +1,37 @@
+<div class="container mt-5">
+    <h2 class="text-center mb-4">
+      {{ modulo_id ? 'Editar módulo' : 'Crear nuevo módulo' }}
+    </h2>
+  
+    <form (ngSubmit)="guardarModulo()" class="card p-4 shadow-sm">
+      <div class="mb-3">
+        <label class="form-label">Título del módulo</label>
+        <input type="text" class="form-control" [(ngModel)]="titulo" name="titulo" required />
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Contenido</label>
+        <textarea class="form-control" rows="5" [(ngModel)]="contenido" name="contenido" required></textarea>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Tipo de archivo (opcional)</label>
+        <select class="form-select" [(ngModel)]="tipo_archivo" name="tipo_archivo">
+            <option *ngFor="let tipo of tipoArchivoOpciones" [value]="tipo.value">{{ tipo.label }}</option>
+        </select>
+      </div>
+  
+      <div class="mb-3">
+        <label class="form-label">Archivo</label>
+        <input type="file" class="form-control" (change)="onFileSelected($event)" />
+      </div>
+  
+      <button type="submit" class="btn btn-primary w-100">
+        {{ modulo_id ? 'Guardar cambios' : 'Crear módulo' }}
+      </button>
+  
+      <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    </form>
+  </div>
+  
