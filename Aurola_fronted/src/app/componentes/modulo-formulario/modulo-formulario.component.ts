@@ -41,7 +41,12 @@ export class ModuloFormularioComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['curso_id']) {
+        if (!this.curso_id || this.curso_id <= 0) {
+          this.errorMessage = 'Curso no válido. No se puede guardar.';
+          return;
+        }        
         this.curso_id = Number(params['curso_id']);
+        console.log("Curso ID recibido:", this.curso_id); // 🔍 Verificar
       }
     });
 
@@ -62,6 +67,7 @@ export class ModuloFormularioComponent implements OnInit {
         this.titulo = modulo.titulo;
         this.contenido = modulo.contenido;
         this.tipo_archivo = modulo.tipo_archivo;
+        this.curso_id = modulo.curso_id; // 🔥 Añadir esto si el backend lo devuelve
       },
       error: (err) => {
         console.error('Error al cargar el módulo:', err);
@@ -80,18 +86,17 @@ export class ModuloFormularioComponent implements OnInit {
     formData.append('titulo', this.titulo);
     formData.append('contenido', this.contenido);
     formData.append('tipo_archivo', this.tipo_archivo);
+    formData.append('curso_id', this.curso_id.toString()); // ✅ ¡Siempre incluirlo!
+  
     if (this.archivo) {
       formData.append('archivo', this.archivo);
     }
-    if (!this.modulo_id) {
-      formData.append('curso_id', this.curso_id.toString());
-    }
-
+  
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
     const request = this.modulo_id
       ? this.http.put(`http://localhost:8000/api/v1/modulos/${this.modulo_id}/`, formData, { headers })
       : this.http.post(`http://localhost:8000/api/v1/modulos/`, formData, { headers });
-
+  
     request.subscribe({
       next: () => {
         this.successMessage = 'Módulo guardado correctamente';
