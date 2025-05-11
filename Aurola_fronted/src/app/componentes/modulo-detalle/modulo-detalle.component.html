@@ -1,0 +1,52 @@
+<div class="container mt-5" *ngIf="modulo; else errorTpl">
+    <div class="card shadow-lg border-0">
+      <div class="card-body">
+        <!-- Título del módulo -->
+        <h2 class="card-title text-primary text-center mb-4">
+          {{ modulo.titulo }}
+        </h2>
+  
+        <!-- Contenido con estilos limpios -->
+        <div class="card-text fs-5" [innerHTML]="contenidoSeguro"></div>
+  
+        <!-- Archivo adjunto -->
+        <div *ngIf="modulo.archivo" class="mt-4">
+          <h5 class="fw-semibold mb-3">📎 Archivo adjunto:</h5>
+  
+          <img *ngIf="modulo.tipo_archivo === 'foto'" 
+               [src]="modulo.archivo"
+               class="img-fluid rounded shadow-sm d-block mx-auto" 
+               alt="Imagen del módulo" 
+               style="max-height: 400px;" />
+  
+          <video *ngIf="modulo.tipo_archivo === 'video'" 
+                 controls 
+                 class="w-100 rounded shadow-sm mb-3">
+            <source [src]="modulo.archivo" type="video/mp4" />
+            Tu navegador no soporta video.
+          </video>
+  
+          <a *ngIf="modulo.tipo_archivo === 'documento'" 
+             [href]="modulo.archivo"
+             target="_blank"
+             class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
+            📄 Ver documento
+          </a>
+        </div>
+      </div>
+      <!-- Botón para marcar como completado (solo estudiantes) -->
+        <button *ngIf="authService.isEstudiante()" 
+          class="btn btn-outline-success mt-3" 
+          (click)="completarModulo(modulo.id)">
+          ✅ Marcar como completado
+        </button>
+    </div>
+  </div>
+  
+  <!-- Error de carga -->
+  <ng-template #errorTpl>
+    <div class="alert alert-danger mt-5 text-center">
+      {{ errorMessage || 'Error al cargar el módulo.' }}
+    </div>
+  </ng-template>
+  

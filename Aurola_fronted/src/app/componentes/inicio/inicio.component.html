@@ -36,7 +36,28 @@
         <div class="card-body">
           <p class="card-text">{{ curso.descripcion }}</p>
           <p><strong>Categoría:</strong> {{ curso.categoria_nombre|| 'N/A' }}</p>
-          <p><strong>Precio:</strong> {{ curso.precio }} €</p>
+          <!-- Mostrar progreso solo si es estudiante e inscrito -->
+          <p *ngIf="authService.isEstudiante() && curso.progreso_usuario != null">
+            <strong>Progreso:</strong> {{ curso.progreso_usuario }}%
+          </p>
+
+          <!-- Mostrar barra de progreso -->
+          <div class="progress mb-2" *ngIf="authService.isEstudiante() && curso.progreso_usuario != null">
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [style.width.%]="curso.progreso_usuario"
+              [attr.aria-valuenow]="curso.progreso_usuario"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+            </div>
+          </div>
+
+          <!-- Mostrar precio solo si no hay progreso (es decir, no inscrito) -->
+          <p *ngIf="curso.progreso_usuario == null">
+            <strong>Precio:</strong> {{ curso.precio }} €
+          </p>
           <button class="btn btn-outline-primary w-100 mt-2">Entrar al curso</button>
         </div>
       </div>

@@ -1,49 +1,21 @@
 <h4 class="mt-4 d-flex justify-content-between align-items-center">
   Módulos del curso
 
-  <!-- Solo para profesores: botón para añadir módulo -->
   <button *ngIf="authService.isProfesor()" class="btn btn-sm btn-success" (click)="crearModulo()">
     ➕ Añadir módulo
   </button>
 </h4>
 
 <div *ngIf="modulos.length > 0; else sinModulos">
-  <div class="row g-4">
-    <div class="col-md-12" *ngFor="let modulo of modulos">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <div class="d-flex justify-content-between align-items-center">
-            <h5 class="card-title mb-0">{{ modulo.titulo }}</h5>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+    <div class="col" *ngFor="let modulo of modulos">
+      <div class="card h-100 shadow-sm" (click)="verDetalle(modulo)" style="cursor: pointer;">
+        <div class="card-body d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">{{ modulo.titulo }}</h5>
 
-            <!-- Botón de editar solo para profesores -->
-            <button *ngIf="authService.isProfesor()" class="btn btn-sm btn-outline-primary" (click)="editarModulo(modulo)">
-              ✏️ Editar
-            </button>
-          </div>
-
-          <p class="card-text mt-2">{{ modulo.contenido }}</p>
-
-          <!-- Mostrar archivo -->
-          <div *ngIf="modulo.archivo">
-            <p class="mt-3"><strong>Archivo adjunto:</strong></p>
-
-            <img *ngIf="modulo.tipo_archivo === 'foto'" 
-                 [src]="'http://localhost:8000' + modulo.archivo"
-                 class="img-fluid rounded shadow mb-3" 
-                 alt="Imagen del módulo" />
-
-            <video *ngIf="modulo.tipo_archivo === 'video'" controls class="w-100 mb-3">
-              <source [src]="'http://localhost:8000' + modulo.archivo" type="video/mp4" />
-              Tu navegador no soporta video.
-            </video>
-
-            <a *ngIf="modulo.tipo_archivo === 'documento'" 
-               [href]="'http://localhost:8000' + modulo.archivo" 
-               target="_blank" 
-               class="btn btn-outline-secondary">
-              Ver documento
-            </a>
-          </div>
+          <button *ngIf="authService.isProfesor()" class="btn btn-sm btn-outline-primary" (click)="editarModulo(modulo); $event.stopPropagation()">
+            ✏️
+          </button>
         </div>
       </div>
     </div>
@@ -53,4 +25,3 @@
 <ng-template #sinModulos>
   <p class="text-muted">Este curso aún no tiene módulos.</p>
 </ng-template>
-

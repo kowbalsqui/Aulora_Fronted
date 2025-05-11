@@ -8,6 +8,7 @@ import { CrearCursoComponent } from './componentes/crear-curso/crear-curso.compo
 import { CursoDetalleComponent } from './componentes/curso-detalle-component/curso-detalle-component.component';
 import { PagosComponent } from './componentes/pagos/pagos.component';
 import { ModuloFormularioComponent } from './componentes/modulo-formulario/modulo-formulario.component';
+import { ModuloDetalleComponent } from './componentes/modulo-detalle/modulo-detalle.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -19,6 +20,8 @@ export const routes: Routes = [
   { path: 'curso/:id', component: CursoDetalleComponent },
   { path: 'pago/:id', component: PagosComponent },
   { path: 'modulo/crear', component: ModuloFormularioComponent },
-  { path: 'modulo/editar/:id', component: ModuloFormularioComponent }
+  { path: 'modulo/editar/:id', component: ModuloFormularioComponent },
+  { path: 'modulo/:id', component: ModuloDetalleComponent },
+
 ];
 

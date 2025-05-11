@@ -8,6 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-curso-detalle',
   templateUrl: './curso-detalle-component.html',
   styleUrls: ['./curso-detalle-component.css'],
+  standalone: true,
   imports: [CommonModule]
 })
 export class CursoDetalleComponent implements OnInit {
@@ -23,7 +24,7 @@ export class CursoDetalleComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private cursoService: CursoService,
-    public authService: AuthService,  // 🔓 Hacemos público para usar en el HTML
+    public authService: AuthService,
     private router: Router
   ) {}
 
@@ -69,15 +70,17 @@ export class CursoDetalleComponent implements OnInit {
     }
   }
 
-  // 👇 Nueva función para crear módulo
   crearModulo(): void {
     this.router.navigate(['/modulo/crear'], {
       queryParams: { curso_id: this.curso.id }
     });
   }
 
-  // 👇 Nueva función para editar módulo existente
   editarModulo(modulo: any): void {
     this.router.navigate(['/modulo/editar', modulo.id]);
+  }
+
+  verDetalle(modulo: any): void {
+    this.router.navigate(['/modulo', modulo.id]);
   }
 }
