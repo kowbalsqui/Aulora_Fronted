@@ -5,6 +5,10 @@
     <a routerLink="/crear-curso" class="btn btn-outline-primary">➕ Añadir nuevo curso</a>
   </div>
 
+   <div *ngIf="authService.isProfesor()" class="mb-4 text-end">
+    <a routerLink="/crear-itinerario" class="btn btn-outline-primary">➕ Añadir nuevo itinerario</a>
+  </div>
+
   <!-- CURSOS INSCRITOS -->
    <div *ngIf="authService.isEstudiante()" class="mb-4 container mt-5">
     <h2 class="mb-4">Tus Cursos e Itinerarios</h2>
@@ -13,10 +17,6 @@
 
   <div *ngIf="mis_cursos.length === 0" class="alert alert-info">
     No estás inscrito en ningún curso todavía.
-
-    Objetivos para mañana Martes: 
-    - Hacer la pagina de perfil obligatorio (incluir la imagen por defecto, investigar)
-    - Opcional si da tiempo, hacer la página de cursos, solo sin funcionalidad de momento
   </div>
 
   <div class="row" *ngIf="mis_cursos.length > 0">
@@ -64,6 +64,48 @@
     </div>
   </div>
 
+  <h4>Mis Itinerarios</h4>
+
+  <div *ngIf="mis_itinerarios.length === 0" class="alert alert-info">
+    No estás inscrito en ningún itinerario todavía.
+  </div>
+
+  <div class="row" *ngIf="mis_itinerarios.length > 0">
+    <div class="col-md-4 mb-3" *ngFor="let itinerario of mis_itinerarios">
+      <div class="card h-100 shadow-sm" (click)="irAlItinerario(itinerario.id)">
+        <div class="card-body">
+          <h5 class="card-title">{{ itinerario.titulo }}</h5>
+          <p class="card-text">{{ itinerario.descripcion }}</p>
+          <p><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+
+          <div *ngIf="itinerario.cursos.length > 0">
+            <h6 class="mt-3">Cursos incluidos:</h6>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item" *ngFor="let curso of itinerario.cursos">
+                <strong>{{ curso.titulo }}</strong><br>
+                <small>{{ curso.descripcion }}</small>
+              </li>
+            </ul>
+          </div>
+
+          <p *ngIf="itinerario.progreso != null">
+            <strong>Progreso:</strong> {{ itinerario.progreso }}%
+          </p>
+
+          <div class="progress mb-2">
+            <div class="progress-bar bg-success"
+                [style.width.%]="itinerario.progreso"
+                [attr.aria-valuenow]="itinerario.progreso"
+                aria-valuemin="0"
+                aria-valuemax="100">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <hr class="my-5">
 
   <h4 class="text-center">Sugerencias de cursos</h4>
@@ -104,8 +146,8 @@
 
   <br>
 
-  <div *ngIf="itinerarios.length === 0" class="alert alert-secondary">
-    No hay sugerencias de disponibles de los itinerarios
+  <div *ngIf="itinerarios.length === 0" class="alert alert-secondary text-center">
+    No hay sugerencias disponibles de itinerarios.
   </div>
 
   <div class="row" *ngIf="itinerarios.length > 0">
@@ -115,22 +157,36 @@
           <h5 class="card-title">{{ itinerario.titulo }}</h5>
           <p class="card-text">{{ itinerario.descripcion }}</p>
 
+          <p><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+
           <div *ngIf="itinerario.cursos.length > 0">
             <h6 class="mt-3">Cursos incluidos:</h6>
             <ul class="list-group list-group-flush">
               <li class="list-group-item" *ngFor="let curso of itinerario.cursos">
-                <strong>{{ curso.titulo }}</strong><br>
+                <strong>{{ curso.titulo }}</strong><br />
                 <small>{{ curso.descripcion }}</small>
               </li>
             </ul>
           </div>
 
-          <!-- Botón según rol -->
-          <button class="btn btn-success w-100 mt-3" *ngIf="authService.isEstudiante()">Apuntarme</button>
+          <!-- Mostrar mensaje o botón según si está inscrito -->
+          <div *ngIf="authService.isEstudiante()">
+            <div *ngIf="itinerario.inscrito" class="alert alert-info mt-3 text-center">
+              Ya estás inscrito en este itinerario.
+            </div>
+
+            <button 
+              class="btn btn-success w-100 mt-3" 
+              *ngIf="!itinerario.inscrito"
+              (click)="apuntarseItinerarios(itinerario)">
+              Apuntarme
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
 </div>
 </div>
 
@@ -202,8 +258,8 @@
 <ng-template #registroRequerido>
   <div class="container mt-5 text-center">
     <div class="alert alert-warning">
-      <h4 class="alert-heading">¡Ups!</h4>
-      <p>Debes <a routerLink="/login">iniciar sesión</a> o <a routerLink="/register">registrarte</a> para acceder a los cursos.</p>
+      <h4 class="alert-heading">Inicia sesion o registrate!</h4>
+      <p><a routerLink="/login">iniciar sesión</a> o <a routerLink="/register">registrarte</a></p>
     </div>
   </div>
 </ng-template>

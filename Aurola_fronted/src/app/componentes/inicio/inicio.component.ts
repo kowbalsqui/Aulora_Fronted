@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CursoService } from '../../services/curso.service';
+import { ItinerarioService } from '../../services/itinerario.service';
+
 @Component({
   selector: 'app-inicio',
   standalone: true,
@@ -23,11 +25,16 @@ export class InicioComponent implements OnInit {
     private http: HttpClient,
     public authService: AuthService,
     private router: Router,
-    public cursoService : CursoService
+    public cursoService : CursoService,
+    public itinerarioService : ItinerarioService
   ) {}
 
   irAlCurso(id: number) {
     this.router.navigate(['/curso', id]);
+  }
+
+  irAlItinerario(id: number){
+    this.router.navigate(['/itinerario', id]);
   }
 
   ngOnInit(): void {
@@ -47,16 +54,7 @@ export class InicioComponent implements OnInit {
         }
       });
 
-      this.http.get<any[]>('http://localhost:8000/api/v1/mis-itinerarios', { headers}).subscribe({
-        next: (res) =>{
-          this.mis_itinerarios = res;
-        },
-        error: (err)=>{
-          console.error('Error al cargar los itinerarios:', err);
-        }
-      });
-
-      this.http.get<any[]>('http://localhost:8000/api/v1/cursos/', { headers }).subscribe({
+      this.http.get<any[]>('http://localhost:8000/api/v1/cursos/?limit=5', { headers }).subscribe({
         next: (res) => {
           this.cursos = res;
         },
@@ -66,15 +64,26 @@ export class InicioComponent implements OnInit {
       });
 
       this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/', { headers }).subscribe({
-        next: (res) =>{
-          this.itinerarios = res; 
+        next: (res) => {
+          this.itinerarios = res.filter(it => !it.inscrito);
         },
-        error: (err) =>{
-          console.error('Error al cargar los itinerarios', err); 
+        error: (err) => {
+          console.error('Error al cargar los itinerarios :', err);
         }
       });
-    }
+
+      this.itinerarioService.getMisItinerarios().subscribe({
+        next: (res) => {
+          this.mis_itinerarios = res;
+          console.log("✅ Mis itinerarios:", res);  // <-- AÑADE ESTE LOG
+        },
+        error: (err) => {
+          console.error('Error al cargar mis itinerarios:', err);
+        }
+      });
+
   }
+}
 
   apuntarse(curso: any): void {
     if (curso.precio > 0) {
@@ -87,6 +96,24 @@ export class InicioComponent implements OnInit {
         },
         error: () => {
           alert('Error al inscribirte. Intenta de nuevo.');
+        }
+      });
+    }
+  }
+
+  apuntarseItinerarios(itinerario:any):void{
+    if (itinerario.precio > 0){
+      this.router.navigate(['/pago', itinerario.id]);
+    } else{
+      this.itinerarioService.inscribirse(itinerario.id).subscribe({
+        next: () => {
+          alert('Te has inscrito al itinerario correctamente');
+          this.mis_itinerarios.push(itinerario)
+           // 🔥 Elimina el itinerario de sugerencias
+          this.itinerarios = this.itinerarios.filter(i => i.id !== itinerario.id);
+        },
+        error: () =>{
+          alert('Error al inscribirse dentro del itinerario')
         }
       });
     }

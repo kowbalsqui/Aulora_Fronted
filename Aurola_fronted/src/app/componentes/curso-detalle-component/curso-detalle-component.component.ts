@@ -51,25 +51,6 @@ export class CursoDetalleComponent implements OnInit {
     });
   }
 
-  apuntarse(): void {
-    this.successMessage = null;
-    this.errorMessage = null;
-
-    if (this.curso.precio > 0) {
-      this.router.navigate(['/pago', this.curso.id]);
-    } else {
-      this.cursoService.inscribirse(this.curso.id).subscribe({
-        next: () => {
-          this.inscrito = true;
-          this.successMessage = 'Te has inscrito correctamente al curso.';
-        },
-        error: () => {
-          this.errorMessage = 'Error al inscribirse. Intenta de nuevo.';
-        }
-      });
-    }
-  }
-
   crearModulo(): void {
     this.router.navigate(['/modulo/crear'], {
       queryParams: { curso_id: this.curso.id }
