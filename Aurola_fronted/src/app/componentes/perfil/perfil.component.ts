@@ -15,6 +15,7 @@ export class PerfilComponent {
   nombre = ''; 
   contrasena = ''; 
   tipo_cuenta = ''; 
+  cursos_completados = 0;
   foto_perfil : File | null = null;  
   susscesMessage : string | null = null;
   errorMesssage : string | null = null;
@@ -34,6 +35,7 @@ export class PerfilComponent {
       next: (user) => {
         this.nombre = user.nombre;
         this.tipo_cuenta = user.tipo_cuenta;
+        this.cursos_completados = user.cursos_completados; 
   
         // Solo mostramos la ruta, no lo tratamos como File
         // No seteamos this.foto_perfil aquí

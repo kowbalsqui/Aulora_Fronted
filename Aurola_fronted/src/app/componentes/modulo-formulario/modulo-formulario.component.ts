@@ -40,15 +40,16 @@ export class ModuloFormularioComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      if (params['curso_id']) {
-        if (!this.curso_id || this.curso_id <= 0) {
-          this.errorMessage = 'Curso no válido. No se puede guardar.';
-          return;
-        }        
-        this.curso_id = Number(params['curso_id']);
-        console.log("Curso ID recibido:", this.curso_id); // 🔍 Verificar
-      }
-    });
+    const cursoIdParam = Number(params['curso_id']);
+
+    if (cursoIdParam && cursoIdParam > 0) {
+      this.curso_id = cursoIdParam;
+      console.log("Curso ID recibido:", this.curso_id);
+    } else {
+      this.errorMessage = 'Curso no válido. No se puede guardar.';
+      return;
+    }
+  });
 
     this.route.params.subscribe(params => {
       if (params['id']) {
