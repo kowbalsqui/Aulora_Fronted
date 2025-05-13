@@ -119,4 +119,40 @@ export class InicioComponent implements OnInit {
     }
   }
 
+  cargarItinerarios(): void {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: 'Token ' + token });
+
+    this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/', { headers }).subscribe({
+      next: (res) => {
+        this.itinerarios = res.filter(it => !it.inscrito);
+      },
+      error: (err) => {
+        console.error('Error al cargar los itinerarios :', err);
+      }
+    });
+  } 
+
+
+  pagarItinerario(itinerario: any): void {
+    const token = this.authService.getToken();
+
+    this.http.post(`http://localhost:8000/api/v1/itinerarios/${itinerario.id}/pagar/`, {}, {
+      headers: { Authorization: 'Token ' + token }
+    }).subscribe({
+      next: () => {
+        alert('✅ Pago exitoso. Inscrito en el itinerario y sus cursos.');
+        // Refrescar los datos del usuario
+        this.itinerarioService.getMisItinerarios().subscribe({
+          next: (res) => this.mis_itinerarios = res
+        });
+        this.cargarItinerarios(); // o recargar los disponibles si tienes método
+      },
+      error: () => {
+        alert('❌ Error al procesar el pago.');
+      }
+    });
+  }
+
+
 }

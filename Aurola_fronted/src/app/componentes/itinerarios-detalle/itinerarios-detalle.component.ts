@@ -50,7 +50,6 @@ export class ItinerarioDetalleComponent implements OnInit {
     });
 }
 
-
   irAlCurso(id: number): void {
     this.router.navigate(['/curso', id]);
   }
