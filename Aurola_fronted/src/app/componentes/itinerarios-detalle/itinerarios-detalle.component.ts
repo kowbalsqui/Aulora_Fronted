@@ -24,12 +24,19 @@ export class ItinerarioDetalleComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    const token = this.authService.getToken();
+  const id = Number(this.route.snapshot.paramMap.get('id'));
+  const token = this.authService.getToken();
 
-    this.http.get<any>(`http://localhost:8000/api/v1/itinerarios/${id}/`, {
-      headers: { Authorization: `Token ${token}` }
-    }).subscribe({
+  if (!token) {
+    this.errorMessage = 'No estás autenticado.';
+    this.router.navigate(['/login']);
+    return;
+  }
+
+  const headers = new HttpHeaders({ Authorization: `Token ${token}` });
+
+  this.http.get<any>(`http://localhost:8000/api/v1/itinerarios/${id}/`, { headers })
+    .subscribe({
       next: (res) => {
         this.itinerario = res;
         this.cargando = false;
@@ -41,7 +48,8 @@ export class ItinerarioDetalleComponent implements OnInit {
         setTimeout(() => this.router.navigate(['/']), 1500);
       }
     });
-  }
+}
+
 
   irAlCurso(id: number): void {
     this.router.navigate(['/curso', id]);

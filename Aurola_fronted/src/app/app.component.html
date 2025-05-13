@@ -56,7 +56,7 @@
 
     <h5>{{ authService.getUser()?.nombre }}</h5>
     <p class="text-muted">{{ authService.getUser()?.email }}</p>
-    <p class="text-muted"> Cursos completados: {{ authService.getUser()?.cursos_completados }}</p>
+    <p class="text-muted" *ngIf="authService.isEstudiante()"> Cursos completados: {{ authService.getUser()?.cursos_completados }}</p>
 
     <!-- Rol con texto -->
     <ng-container [ngSwitch]="authService.getUser()?.rol">

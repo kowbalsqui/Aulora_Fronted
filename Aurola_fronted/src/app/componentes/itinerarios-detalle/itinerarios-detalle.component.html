@@ -4,10 +4,10 @@
   <p><strong>Precio:</strong> {{ itinerario.precio }} €</p>
 
   <h4 class="mt-4">Cursos incluidos</h4>
-  <div *ngIf="itinerario.cursos?.length > 0; else sinCursos">
+  <div *ngIf="itinerario.cursos_detalles?.length > 0; else sinCursos">
     <ul class="list-group">
       <li class="list-group-item d-flex justify-content-between align-items-center"
-          *ngFor="let curso of itinerario.cursos">
+          *ngFor="let curso of itinerario.cursos_detalles">
         <span>
           <strong>{{ curso.titulo }}</strong><br />
           <small>{{ curso.descripcion }}</small>
