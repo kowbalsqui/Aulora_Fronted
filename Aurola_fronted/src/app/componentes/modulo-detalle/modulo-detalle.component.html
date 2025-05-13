@@ -35,7 +35,7 @@
         </div>
       </div>
       <!-- Botón para marcar como completado (solo estudiantes) -->
-        <button *ngIf="authService.isEstudiante()" 
+        <button *ngIf="authService.isEstudiante() && !moduloCompletado" 
           class="btn btn-outline-success mt-3" 
           (click)="completarModulo(modulo.id)">
           ✅ Marcar como completado

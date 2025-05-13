@@ -118,7 +118,7 @@
 
   <div class="row" *ngIf="cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
-      <div class="card h-100 shadow cursor-pointer" (click)="irAlCurso(curso.id)">
+      <div class="card h-100 shadow cursor-pointer" >
         <!-- Imagen del curso -->
         <img
           *ngIf="curso.foto"

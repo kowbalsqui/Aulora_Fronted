@@ -17,6 +17,7 @@ export class ModuloDetalleComponent implements OnInit {
   contenidoSeguro: SafeHtml = "";  
   errorMessage: string | null = null;
   successMessage: string | null = null; 
+  moduloCompletado: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,6 +35,7 @@ export class ModuloDetalleComponent implements OnInit {
     this.http.get(`http://localhost:8000/api/v1/modulos/${id}/`, { headers }).subscribe({
       next: (res) => {
         this.modulo = res;
+        this.moduloCompletado = this.modulo.completado;
         this.contenidoSeguro = this.sanitizer.bypassSecurityTrustHtml(this.modulo.contenido); // 👈 aquí dentro
       },
       error: () => {
@@ -43,20 +45,36 @@ export class ModuloDetalleComponent implements OnInit {
   }
 
   completarModulo(moduloId: number) {
-    const token = this.authService.getToken();
-    const headers = { Authorization: 'Token ' + token };
-  
-    this.http.post(`http://localhost:8000/api/v1/modulos/${moduloId}/completar/`, {}, { headers })
-      .subscribe({
-        next: (res: any) => {
-          console.log('✅ Progreso actualizado:', res.nuevo_progreso);
-          this.successMessage = `¡Progreso actualizado al ${res.nuevo_progreso}%!`;
-          // Puedes también actualizar el progreso local si lo estás mostrando en pantalla
-        },
-        error: (err) => {
-          console.error('❌ Error al marcar módulo como completado', err);
-          this.errorMessage = 'Error al actualizar progreso.';
+  const token = this.authService.getToken();
+  const headers = { Authorization: 'Token ' + token };
+
+  this.http.post(`http://localhost:8000/api/v1/modulos/${moduloId}/completar/`, {}, { headers })
+    .subscribe({
+      next: (res: any) => {
+        console.log('✅ Progreso actualizado:', res.progreso_curso);
+        this.successMessage = `¡Progreso actualizado al ${res.progreso_curso}%!`;
+
+        // 🔥 Actualizar cursos_completados en localStorage si llega al 100%
+        if (res.progreso_curso === 100) {
+          const user = this.authService.getUser();
+          if (user) {
+            user.cursos_completados = (user.cursos_completados || 0) + 1;
+            localStorage.setItem('auth_user', JSON.stringify(user));
+            console.log('🎯 Cursos completados actualizado en localStorage:', user.cursos_completados);
+          }
         }
-      });
-  }
+
+        // ✅ marcar como completado y redirigir al curso
+        this.moduloCompletado = true;
+        setTimeout(() => {
+          window.location.href = `/curso/${this.modulo.curso_id}`;
+        }, 1500);
+      },
+      error: (err) => {
+        console.error('❌ Error al marcar módulo como completado', err);
+        this.errorMessage = 'Error al actualizar progreso.';
+      }
+    });
+}
+
 }

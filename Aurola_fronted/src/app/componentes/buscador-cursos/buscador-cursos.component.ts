@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { debounceTime, Subject } from 'rxjs'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { debounceTime, Subject } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
-//Subjects es una fuente de eventos para usarlos como EventEmitter
-//debounceTime es un operador que retrasa la emisión de un valor hasta que haya pasado un tiempo determinado desde la última emisión
 
 @Component({
   selector: 'app-explorar-cursos',
@@ -20,23 +18,51 @@ export class ExplorarCursosComponent implements OnInit {
   searchTerm = '';
   categoriaId = '';
   orden = '';
-  searchChanged = new Subject<string>(); //Canal al cual vamos a eviar el texto que busquemos en la barra de busqueda
+  searchChanged = new Subject<string>();
+  misCursosIds: Set<number> = new Set();
+  misItinerariosIds: Set<number> = new Set();
 
   constructor(private http: HttpClient, public authService: AuthService) {}
 
   ngOnInit(): void {
+    const token = this.authService.getToken();
+
+    if (!token) return;
+
+    const headers = new HttpHeaders({
+      Authorization: 'Token ' + token
+    });
+
+    // Buscar con retardo
     this.searchChanged.pipe(debounceTime(50)).subscribe((term) => {
       this.searchTerm = term;
       this.cargarCursos();
     });
-  
-    // Cargar al inicio
-    this.cargarCursos();
-    //Nos suscribimos al canal de busqueda y le decimos que cuando pase el tiempo del debounceTime busque con lo que tenga dentro el searchChanged
+
+    // Cargar inscripciones
+    this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
+      next: (res) => {
+        this.misCursosIds = new Set(res.map(curso => curso.id));
+        this.cargarCursos();
+      },
+      error: () => console.error('Error al cargar mis cursos')
+    });
+
+    this.http.get<any[]>('http://localhost:8000/api/v1/mis-itinerarios/', { headers }).subscribe({
+      next: (res) => {
+        this.misItinerariosIds = new Set(res.map(it => it.id));
+        this.cargarCursos();
+      },
+      error: () => console.error('Error al cargar mis itinerarios')
+    });
   }
 
-  cargarCursos() {
-    let params = [];
+  cargarCursos(): void {
+
+    const headers = new HttpHeaders({
+      Authorization: 'Token ' + this.authService.getToken()
+    });
+    const params: string[] = [];
 
     if (this.searchTerm) params.push(`search=${this.searchTerm}`);
     if (this.categoriaId) params.push(`categoria_id=${this.categoriaId}`);
@@ -44,16 +70,64 @@ export class ExplorarCursosComponent implements OnInit {
 
     const queryString = params.length ? `?${params.join('&')}` : '';
 
-    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-cursos/${queryString}`)
+    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-cursos/${queryString}`, { headers })
       .subscribe({
-        next: (res) => this.cursos = res,
+        next: (res) => {
+          this.cursos = res.map(curso => ({
+            ...curso,
+            inscrito: this.misCursosIds.has(curso.id)
+          }));
+        },
         error: (err) => console.error('Error cargando cursos:', err)
       });
-    
-    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-itinerarios/${queryString}`)
+
+    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-itinerarios/${queryString}`, { headers })
       .subscribe({
-        next: (res) => this.itinerarios = res,
+        next: (res) => {
+          this.itinerarios = res.map(it => ({
+            ...it,
+            inscrito: this.misItinerariosIds.has(it.id)
+          }));
+        },
         error: (err) => console.error('Error cargando itinerarios:', err)
       });
+  }
+
+  apuntarse(curso: any): void {
+    if (curso.precio > 0) {
+      window.location.href = `/pago/${curso.id}`;
+    } else {
+      this.http.post(`http://localhost:8000/api/v1/cursos/${curso.id}/inscribirse/`, {}, {
+        headers: { Authorization: 'Token ' + this.authService.getToken() }
+      }).subscribe({
+        next: () => {
+          alert('✅ Te has inscrito correctamente al curso');
+          this.misCursosIds.add(curso.id);
+          this.cargarCursos();
+        },
+        error: () => {
+          alert('❌ Error al inscribirte. Intenta de nuevo.');
+        }
+      });
+    }
+  }
+
+  apuntarseItinerario(itinerario: any): void {
+    if (itinerario.precio > 0) {
+      window.location.href = `/pago/${itinerario.id}`;
+    } else {
+      this.http.post(`http://localhost:8000/api/v1/itinerarios/${itinerario.id}/inscribirse/`, {}, {
+        headers: { Authorization: 'Token ' + this.authService.getToken() }
+      }).subscribe({
+        next: () => {
+          alert('✅ Te has inscrito al itinerario correctamente');
+          this.misItinerariosIds.add(itinerario.id);
+          this.cargarCursos();
+        },
+        error: () => {
+          alert('❌ Error al inscribirte al itinerario');
+        }
+      });
+    }
   }
 }
