@@ -1,5 +1,8 @@
 <h4 class="mt-5 text-center">
   <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>
+  <strong> {{ curso.titulo }} </strong>
+  <br>
+  <br>
   <strong>Módulos del Curso</strong>
 </h4>
 
@@ -30,6 +33,6 @@
 <ng-template #sinModulos>
   <div class="text-center text-muted mt-4">
     <i class="bi bi-exclamation-circle fs-3"></i>
-    <p class="mt-2">Este curso aún no tiene módulos disponibles.</p>
+    <p class="mt-2">EL curso {{ curso.titulo }} aún no tiene módulos disponibles.</p>
   </div>
 </ng-template>

@@ -1,27 +1,40 @@
 <div class="container mt-5" *ngIf="!cargando && itinerario; else cargandoTpl">
-  <h2>{{ itinerario.titulo }}</h2>
-  <p>{{ itinerario.descripcion }}</p>
-  <p><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+  <div class="card shadow-lg border-0">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ itinerario.titulo }}</h2>
+    </div>
+    <div class="card-body">
+      <p class="lead">{{ itinerario.descripcion }}</p>
 
-  <h4 class="mt-4">Cursos incluidos</h4>
-  <div *ngIf="itinerario.cursos_detalles?.length > 0; else sinCursos">
-    <ul class="list-group">
-      <li class="list-group-item d-flex justify-content-between align-items-center"
-          *ngFor="let curso of itinerario.cursos_detalles">
-        <span>
-          <strong>{{ curso.titulo }}</strong><br />
-          <small>{{ curso.descripcion }}</small>
+      <div class="mb-3">
+        <span class="badge bg-info text-dark fs-6">
+          {{ itinerario.precio === 0 ? 'Gratis' : (itinerario.precio + ' €') }}
         </span>
-        <button class="btn btn-outline-primary btn-sm" (click)="irAlCurso(curso.id)">
-          Ver curso
-        </button>
-      </li>
-    </ul>
-  </div>
+      </div>
 
-  <ng-template #sinCursos>
-    <p class="text-muted">Este itinerario no tiene cursos asignados.</p>
-  </ng-template>
+      <h4 class="mt-4">📚 Cursos incluidos</h4>
+
+      <div *ngIf="itinerario.cursos_detalles?.length > 0; else sinCursos">
+        <ul class="list-group list-group-flush mt-3">
+          <li 
+            class="list-group-item d-flex justify-content-between align-items-start border-start border-3 border-primary"
+            *ngFor="let curso of itinerario.cursos_detalles">
+            <div class="me-auto">
+              <div class="fw-bold">{{ curso.titulo }}</div>
+              <small class="text-muted">{{ curso.descripcion }}</small>
+            </div>
+            <button class="btn btn-outline-primary btn-sm" (click)="irAlCurso(curso.id)">
+              Ver curso
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      <ng-template #sinCursos>
+        <p class="text-muted mt-3">Este itinerario no tiene cursos asignados todavía.</p>
+      </ng-template>
+    </div>
+  </div>
 </div>
 
 <ng-template #cargandoTpl>
