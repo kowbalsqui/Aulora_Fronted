@@ -1,21 +1,26 @@
-<h4 class="mt-4 d-flex justify-content-between align-items-center">
-  Módulos del curso
-
-  <button *ngIf="authService.isProfesor()" class="btn btn-sm btn-success" (click)="crearModulo()">
-    ➕ Añadir módulo
-  </button>
+<h4 class="mt-5 text-center">
+  <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>
+  <strong>Módulos del Curso</strong>
 </h4>
 
-<div *ngIf="modulos.length > 0; else sinModulos">
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
-    <div class="col" *ngFor="let modulo of modulos">
-      <div class="card h-100 shadow-sm" (click)="verDetalle(modulo)" style="cursor: pointer;">
-        <div class="card-body d-flex justify-content-between align-items-center">
-          <h5 class="card-title mb-0">{{ modulo.titulo }}</h5>
-
-          <button *ngIf="authService.isProfesor()" class="btn btn-sm btn-outline-primary" (click)="editarModulo(modulo); $event.stopPropagation()">
-            ✏️
-          </button>
+<div *ngIf="modulos.length > 0; else sinModulos" class="row justify-content-center mt-4">
+  <div class="col-md-10 col-lg-8">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+      <div class="col" *ngFor="let modulo of modulos">
+        <div 
+          class="card h-100 text-center shadow-sm border-0-balck rounded-4 p-3 transition transform-hover"
+          (click)="verDetalle(modulo)" 
+          style="cursor: pointer;">
+          <div class="card-body">
+            <i class="bi bi-play-circle-fill text-success fs-2 mb-2 d-block"></i>
+            <h5 class="card-title">{{ modulo.titulo }}</h5>
+            <p class="card-text text-muted small">Haz clic para ver el contenido completo</p>
+            <button *ngIf="authService.isProfesor()" 
+                    class="btn btn-outline-primary btn-sm mt-2"
+                    (click)="editarModulo(modulo); $event.stopPropagation()">
+              ✏️ Editar módulo
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -23,5 +28,8 @@
 </div>
 
 <ng-template #sinModulos>
-  <p class="text-muted">Este curso aún no tiene módulos.</p>
+  <div class="text-center text-muted mt-4">
+    <i class="bi bi-exclamation-circle fs-3"></i>
+    <p class="mt-2">Este curso aún no tiene módulos disponibles.</p>
+  </div>
 </ng-template>
