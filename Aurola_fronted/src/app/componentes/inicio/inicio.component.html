@@ -181,8 +181,8 @@
             class="btn btn-success w-100 mt-3"
             *ngIf="!itinerario.inscrito && authService.isEstudiante()"
             (click)="(itinerario.precio || 0) > 0 
-            ? pagarItinerario(itinerario) 
-            : apuntarseItinerarios(itinerario)">
+              ? router.navigate(['/pago', 'itinerario', itinerario.id]) 
+              : apuntarseItinerarios(itinerario)">
             {{ (itinerario.precio || 0) > 0 ? 'Pagar ' + itinerario.precio + ' €' : 'Apuntarme' }}
           </button>
         </div>

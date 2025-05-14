@@ -24,7 +24,7 @@ export class InicioComponent implements OnInit {
   constructor(
     private http: HttpClient,
     public authService: AuthService,
-    private router: Router,
+    public router: Router,
     public cursoService : CursoService,
     public itinerarioService : ItinerarioService
   ) {}
@@ -63,7 +63,7 @@ export class InicioComponent implements OnInit {
         }
       });
 
-      this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/', { headers }).subscribe({
+      this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/?limit=5', { headers }).subscribe({
         next: (res) => {
           this.itinerarios = res.filter(it => !it.inscrito);
         },
@@ -87,7 +87,7 @@ export class InicioComponent implements OnInit {
 
   apuntarse(curso: any): void {
     if (curso.precio > 0) {
-      this.router.navigate(['/pago', curso.id]);
+      this.router.navigate(['/pago', 'curso', curso.id]);
     } else {
       this.cursoService.inscribirse(curso.id).subscribe({
         next: () => {
@@ -103,7 +103,7 @@ export class InicioComponent implements OnInit {
 
   apuntarseItinerarios(itinerario:any):void{
     if (itinerario.precio > 0){
-      this.router.navigate(['/pago', itinerario.id]);
+      this.router.navigate(['/pago', 'itinerario', itinerario.id]);
     } else{
       this.itinerarioService.inscribirse(itinerario.id).subscribe({
         next: () => {
@@ -133,6 +133,21 @@ export class InicioComponent implements OnInit {
     });
   } 
 
+  cargaMisCursos() : void{
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: 'Token ' + token});
+
+    this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
+      next: (res) =>{
+        this.mis_cursos = res
+        console.log('mis cursos actualizados correctamente');
+      },
+      error: (err) =>{
+        console.error('Error al actualizar mis cursos '+ err);
+      }
+    });
+  }
+
 
   pagarItinerario(itinerario: any): void {
     const token = this.authService.getToken();
@@ -147,6 +162,7 @@ export class InicioComponent implements OnInit {
           next: (res) => this.mis_itinerarios = res
         });
         this.cargarItinerarios(); // o recargar los disponibles si tienes método
+        this.cargaMisCursos(); 
       },
       error: () => {
         alert('❌ Error al procesar el pago.');

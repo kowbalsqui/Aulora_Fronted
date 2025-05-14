@@ -88,6 +88,9 @@
           <h5 class="card-title">{{ itinerario.titulo }}</h5>
           <p class="card-text">{{ itinerario.descripcion }}</p>
 
+          <p *ngIf="itinerario.precio === 0"><strong>Precio:</strong> Gratis</p>
+          <p *ngIf="itinerario.precio > 0"><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+
           <div *ngIf="itinerario.cursos_detalles?.length > 0">
             <h6 class="mt-3">Cursos incluidos:</h6>
             <ul class="list-group list-group-flush">

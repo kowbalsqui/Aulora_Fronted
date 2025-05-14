@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CursoService } from '../../services/curso.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-pago',
@@ -11,7 +12,8 @@ import { FormsModule } from '@angular/forms';
   imports: [CommonModule, FormsModule]
 })
 export class PagosComponent implements OnInit {
-  cursoId!: number;
+  id!: number;
+  tipo!: 'curso' | 'itinerario';  // 🔥 nuevo
   form = {
     titular: '',
     numero: '',
@@ -22,69 +24,58 @@ export class PagosComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private cursoService: CursoService,
+    private http: HttpClient,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.cursoId = Number(this.route.snapshot.paramMap.get('id'));
+    this.tipo = this.route.snapshot.paramMap.get('tipo') as 'curso' | 'itinerario';
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
   }
-
-  esFechaExpiracionValida(fecha: string): boolean {
-    const expr = /^(0[1-9]|1[0-2])\/\d{2}$/;
-    if (!expr.test(fecha)) return false;
-
-    const [mesStr, anioStr] = fecha.split('/');
-    const mes = parseInt(mesStr, 10);
-    const anio = parseInt(anioStr, 10);
-
-    const ahora = new Date();
-    const mesActual = ahora.getMonth() + 1; // getMonth() devuelve 0-11
-    const anioActual = ahora.getFullYear() % 100; // convertir a formato dos dígitos
-
-    // Comparación
-    return anio > anioActual || (anio === anioActual && mes >= mesActual);
-  }
-
 
   pagar() {
-    const exprFecha = /^(0[1-9]|1[0-2])\/\d{2}$/; // MM/AA con mes válido
-    const exprCvv = /^\d{3,4}$/; // CVV de 3 o 4 dígitos
-    const exprTarjeta = /^\d{16}$/; // Número de tarjeta de 16 dígitos
+    // Validaciones (igual que ya tienes)
+    const exprFecha = /^(0[1-9]|1[0-2])\/\d{2}$/;
+    const exprCvv = /^\d{3,4}$/;
+    const exprTarjeta = /^\d{16}$/;
 
-    // Validaciones antes de enviar
-    if (!exprTarjeta.test(this.form.numero)) {
-      alert('Número de tarjeta inválido. Debe contener 16 dígitos.');
-      return;
-    }
-
-    if (!exprFecha.test(this.form.expiracion)) {
-      alert('Fecha de expiración inválida. Usa el formato MM/AA.');
+    if (!exprTarjeta.test(this.form.numero) || !exprFecha.test(this.form.expiracion) || !exprCvv.test(this.form.cvv)) {
+      alert('Datos de tarjeta inválidos.');
       return;
     }
 
     if (!this.esFechaExpiracionValida(this.form.expiracion)) {
-      alert('La fecha de expiración es inválida o ya ha pasado.');
-      return;
-    }
-
-    if (!exprCvv.test(this.form.cvv)) {
-      alert('CVV inválido. Debe contener 3 o 4 dígitos.');
+      alert('La fecha de expiración ya ha pasado.');
       return;
     }
 
     this.procesando = true;
 
-    this.cursoService.pagarCurso(this.cursoId, this.form).subscribe({
+    const url = this.tipo === 'curso'
+      ? `http://localhost:8000/api/v1/cursos/${this.id}/inscribirse/`
+      : `http://localhost:8000/api/v1/itinerarios/${this.id}/pagar/`;
+
+    const headers = { Authorization: 'Token ' + localStorage.getItem('auth_token') };
+
+    this.http.post(url, {}, { headers }).subscribe({
       next: () => {
-        alert('Pago simulado exitoso. ¡Ya estás inscrito!');
-        this.router.navigate(['/curso', this.cursoId]);
+        alert('✅ Pago exitoso. Ya estás inscrito.');
+        const redirect = this.tipo === 'curso' ? 'curso' : 'itinerario';
+        this.router.navigate(['/' + redirect, this.id]);
       },
       error: () => {
-        alert('Error al procesar el pago.');
+        alert('❌ Error al procesar el pago.');
         this.procesando = false;
       }
     });
   }
 
+  esFechaExpiracionValida(fecha: string): boolean {
+    const [mes, anio] = fecha.split('/').map(Number);
+    const ahora = new Date();
+    const mesActual = ahora.getMonth() + 1;
+    const anioActual = ahora.getFullYear() % 100;
+    return anio > anioActual || (anio === anioActual && mes >= mesActual);
+  }
 }
+

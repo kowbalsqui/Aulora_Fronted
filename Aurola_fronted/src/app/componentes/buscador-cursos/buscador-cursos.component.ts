@@ -95,7 +95,7 @@ export class ExplorarCursosComponent implements OnInit {
 
   apuntarse(curso: any): void {
     if (curso.precio > 0) {
-      window.location.href = `/pago/${curso.id}`;
+      window.location.href = `/pago/curso/${curso.id}`;
     } else {
       this.http.post(`http://localhost:8000/api/v1/cursos/${curso.id}/inscribirse/`, {}, {
         headers: { Authorization: 'Token ' + this.authService.getToken() }
@@ -114,7 +114,7 @@ export class ExplorarCursosComponent implements OnInit {
 
   apuntarseItinerario(itinerario: any): void {
     if (itinerario.precio > 0) {
-      window.location.href = `/pago/${itinerario.id}`;
+      window.location.href = `/pago/itinerario/${itinerario.id}`;
     } else {
       this.http.post(`http://localhost:8000/api/v1/itinerarios/${itinerario.id}/inscribirse/`, {}, {
         headers: { Authorization: 'Token ' + this.authService.getToken() }

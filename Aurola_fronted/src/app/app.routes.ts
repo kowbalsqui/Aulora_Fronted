@@ -20,7 +20,7 @@ export const routes: Routes = [
   { path: 'cursos', component: ExplorarCursosComponent },
   { path: 'crear-curso', component: CrearCursoComponent },
   { path: 'curso/:id', component: CursoDetalleComponent },
-  { path: 'pago/:id', component: PagosComponent },
+  { path: 'pago/:tipo/:id', component: PagosComponent },
   { path: 'modulo/crear', component: ModuloFormularioComponent },
   { path: 'modulo/editar/:id', component: ModuloFormularioComponent },
   { path: 'modulo/:id', component: ModuloDetalleComponent },
