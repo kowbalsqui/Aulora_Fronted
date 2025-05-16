@@ -6,6 +6,15 @@
   <strong>Módulos del Curso</strong>
 </h4>
 
+<div *ngIf="authService.isProfesor()" class="text-end me-3 mb-3">
+  <button 
+    *ngIf="authService.isProfesor()" 
+    (click)="crearModulo()"
+    class="btn btn-outline-success mb-3 ms-auto d-block">
+    ➕ Crear módulo
+  </button>
+</div>
+
 <div *ngIf="modulos.length > 0; else sinModulos" class="row justify-content-center mt-4">
   <div class="col-md-10 col-lg-8">
     <div class="row row-cols-1 row-cols-md-2 g-4">

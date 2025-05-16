@@ -1,0 +1,52 @@
+<div class="container mt-5">
+  <h2 class="mb-4 text-center text-primary">✏️ Editar Itinerario</h2>
+
+  <!-- Mensajes -->
+  <div *ngIf="successMessage" class="alert alert-success text-center">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</div>
+
+  <!-- Formulario -->
+  <form (ngSubmit)="guardarCambios()" *ngIf="itinerario; else cargandoTpl">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Título</label>
+      <input type="text" class="form-control" [(ngModel)]="itinerario.titulo" name="titulo" required />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Descripción</label>
+      <textarea class="form-control" [(ngModel)]="itinerario.descripcion" name="descripcion" rows="4" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Precio (€)</label>
+      <input type="number" class="form-control" [(ngModel)]="itinerario.precio" name="precio" min="0" required />
+    </div>
+
+    <!-- Cursos disponibles -->
+    <div class="mb-4">
+      <label class="form-label fw-bold">Cursos asignados</label>
+      <div class="list-group shadow-sm">
+        <label 
+          class="list-group-item" 
+          *ngFor="let curso of cursosDisponibles">
+          <input
+            class="form-check-input me-2"
+            type="checkbox"
+            [checked]="cursosSeleccionados.includes(curso.id)"
+            (change)="toggleCurso(curso.id)" />
+          {{ curso.titulo }} - <small class="text-muted">{{ curso.descripcion }}</small>
+        </label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">💾 Guardar cambios</button>
+  </form>
+
+  <!-- Loading -->
+  <ng-template #cargandoTpl>
+    <div class="text-center mt-5">
+      <div class="spinner-border text-primary" role="status"></div>
+      <p class="mt-3">Cargando datos del itinerario...</p>
+    </div>
+  </ng-template>
+</div>

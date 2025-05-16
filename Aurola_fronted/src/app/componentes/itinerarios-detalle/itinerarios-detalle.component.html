@@ -4,6 +4,12 @@
       <h2 class="mb-0">{{ itinerario.titulo }}</h2>
     </div>
     <div class="card-body">
+       <!-- Botón para editar (solo para profesores) -->
+      <div *ngIf="authService.isProfesor()" class="text-end mb-3">
+        <button class="btn btn-outline-warning" (click)="editarItinerario(itinerario.id)">
+          ✏️ Editar itinerario
+        </button>
+      </div>
       <p class="lead">{{ itinerario.descripcion }}</p>
 
       <div class="mb-3">

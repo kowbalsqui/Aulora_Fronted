@@ -20,6 +20,10 @@ export class InicioComponent implements OnInit {
   mis_cursos: any[] = [];
   itinerarios: any[] = [];
   mis_itinerarios: any[] = [];
+  mostrarChat = false;
+  mensajeActual = '';
+  mensajes: { texto: string, de: 'usuario' | 'bot' }[] = [];
+
 
   constructor(
     private http: HttpClient,
@@ -170,5 +174,24 @@ export class InicioComponent implements OnInit {
     });
   }
 
+  enviarMensaje() {
+  const pregunta = this.mensajeActual.trim();
+  if (!pregunta) return;
+
+  this.mensajes.push({ texto: pregunta, de: 'usuario' });
+
+  const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+  this.http.post<any>('http://localhost:8000/api/v1/chatbot/', { pregunta }, { headers }).subscribe({
+    next: (resp) => {
+      this.mensajes.push({ texto: resp.respuesta, de: 'bot' });
+    },
+    error: () => {
+      this.mensajes.push({ texto: 'Hubo un error al conectar con el servidor.', de: 'bot' });
+    }
+  });
+
+  this.mensajeActual = '';
+}
 
 }

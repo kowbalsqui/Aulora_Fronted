@@ -12,8 +12,11 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './buscador-cursos.component.html',
   styleUrls: ['./buscador-cursos.component.css']
 })
+// ... (imports igual que antes)
+
 export class ExplorarCursosComponent implements OnInit {
   cursos: any[] = [];
+  cursosPorCategoria: { [categoria: string]: any[] } = {}; // NUEVO
   itinerarios: any[] = [];
   searchTerm = '';
   categoriaId = '';
@@ -26,20 +29,15 @@ export class ExplorarCursosComponent implements OnInit {
 
   ngOnInit(): void {
     const token = this.authService.getToken();
-
     if (!token) return;
 
-    const headers = new HttpHeaders({
-      Authorization: 'Token ' + token
-    });
+    const headers = new HttpHeaders({ Authorization: 'Token ' + token });
 
-    // Buscar con retardo
     this.searchChanged.pipe(debounceTime(50)).subscribe((term) => {
       this.searchTerm = term;
       this.cargarCursos();
     });
 
-    // Cargar inscripciones
     this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
       next: (res) => {
         this.misCursosIds = new Set(res.map(curso => curso.id));
@@ -58,7 +56,6 @@ export class ExplorarCursosComponent implements OnInit {
   }
 
   cargarCursos(): void {
-
     const headers = new HttpHeaders({
       Authorization: 'Token ' + this.authService.getToken()
     });
@@ -73,10 +70,17 @@ export class ExplorarCursosComponent implements OnInit {
     this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-cursos/${queryString}`, { headers })
       .subscribe({
         next: (res) => {
-          this.cursos = res.map(curso => ({
-            ...curso,
-            inscrito: this.misCursosIds.has(curso.id)
-          }));
+          this.cursosPorCategoria = {};
+          res.forEach(curso => {
+            const categoria = curso.categoria_nombre || 'Sin categoría';
+            if (!this.cursosPorCategoria[categoria]) {
+              this.cursosPorCategoria[categoria] = [];
+            }
+            this.cursosPorCategoria[categoria].push({
+              ...curso,
+              inscrito: this.misCursosIds.has(curso.id)
+            });
+          });
         },
         error: (err) => console.error('Error cargando cursos:', err)
       });

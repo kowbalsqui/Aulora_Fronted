@@ -19,7 +19,7 @@ export class ItinerarioDetalleComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private authService: AuthService,
+    public authService: AuthService,
     private router: Router
   ) {}
 
@@ -53,4 +53,9 @@ export class ItinerarioDetalleComponent implements OnInit {
   irAlCurso(id: number): void {
     this.router.navigate(['/curso', id]);
   }
+
+  editarItinerario(id: number): void {
+  this.router.navigate(['/itinerario/editar', id]);
+}
+
 }

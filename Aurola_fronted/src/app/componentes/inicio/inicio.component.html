@@ -252,13 +252,18 @@
         </div>
 
         <!-- Botón según rol -->
-        <button class="btn btn-outline-secondary w-100 mt-3" *ngIf="authService.isProfesor()">Ver itinerario</button>
+        <div *ngIf="authService.isProfesor()">
+          <button 
+            class="btn btn-outline-secondary w-100 mt-3"
+            (click)="irAlItinerario(itinerario.id)">
+            Ver itinerario
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 </div>
-
 
 <!-- Si no está logueado -->
 <ng-template #registroRequerido>
@@ -269,3 +274,41 @@
     </div>
   </div>
 </ng-template>
+
+<!-- Botón flotante con Bootstrap -->
+<div *ngIf="authService.isEstudiante()">
+  <button class="btn btn-primary rounded-circle position-fixed bottom-0 start-0 m-4 shadow"
+          (click)="mostrarChat = !mostrarChat"
+          style="width: 60px; height: 60px; z-index: 1050;">
+    💬
+  </button>
+</div>
+
+<!-- Ventana del chatbot -->
+<div class="card position-fixed bottom-0 start-0 m-4" *ngIf="mostrarChat" style="width: 22rem; z-index: 1050;">
+  <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+    <strong>Chat Aulora</strong>
+    <button class="btn btn-sm btn-light" (click)="mostrarChat = false">✖</button>
+  </div>
+
+  <div class="card-body overflow-auto" style="max-height: 300px;">
+    <div *ngFor="let mensaje of mensajes" class="mb-2">
+      <div [ngClass]="mensaje.de === 'usuario' ? 'text-end' : 'text-start'">
+        <span
+          [ngClass]="mensaje.de === 'usuario' ? 'badge bg-primary' : 'badge bg-secondary'"
+          class="d-inline-block text-wrap px-2 py-1"
+          style="max-width: 100%; white-space: normal; word-break: break-word;"
+        >
+          {{ mensaje.texto }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-footer">
+    <form (ngSubmit)="enviarMensaje()" class="d-flex gap-2">
+      <input type="text" class="form-control" [(ngModel)]="mensajeActual" name="mensaje" required placeholder="Escribe algo...">
+      <button type="submit" class="btn btn-primary">→</button>
+    </form>
+  </div>
+</div>
