@@ -1,0 +1,64 @@
+/* Colores más vivos para los cards */
+.card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  border-radius: 0.75rem;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.card-body {
+  background-color: #f9f9f9;
+}
+
+/* Botones */
+.btn {
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-success {
+  background-color: #00c851;
+  border-color: #00c851;
+}
+
+.btn-outline-primary {
+  border-color: #4285f4;
+  color: #4285f4;
+}
+
+.btn-outline-primary:hover {
+  background-color: #4285f4;
+  color: white;
+}
+
+/* Progreso */
+.progress-bar {
+  transition: width 0.5s ease;
+}
+
+/* Chatbot */
+.card-header strong {
+  font-size: 1.1rem;
+}
+
+.card-footer input[type="text"] {
+  border-radius: 0.3rem;
+}
+
+/* Enlaces */
+a {
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}

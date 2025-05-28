@@ -291,7 +291,7 @@
     <button class="btn btn-sm btn-light" (click)="mostrarChat = false">✖</button>
   </div>
 
-  <div class="card-body overflow-auto" style="max-height: 300px;">
+  <div #chatBody class="card-body overflow-auto" style="max-height: 300px;">
     <div *ngFor="let mensaje of mensajes" class="mb-2">
       <div [ngClass]="mensaje.de === 'usuario' ? 'text-end' : 'text-start'">
         <span
@@ -301,6 +301,15 @@
         >
           {{ mensaje.texto }}
         </span>
+      </div>
+      
+      <!-- Mostrar opciones si existen -->
+      <div *ngIf="mensaje.opciones?.length" class="mt-2 d-flex flex-wrap gap-2" [ngClass]="mensaje.de === 'usuario' ? 'justify-content-end' : 'justify-content-start'">
+        <button *ngFor="let opcion of mensaje.opciones"
+                class="btn btn-outline-secondary btn-sm"
+                (click)="seleccionarOpcion(opcion)">
+          {{ opcion }}
+        </button>
       </div>
     </div>
   </div>

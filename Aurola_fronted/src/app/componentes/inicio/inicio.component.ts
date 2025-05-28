@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CursoService } from '../../services/curso.service';
 import { ItinerarioService } from '../../services/itinerario.service';
+import { ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 
 @Component({
   selector: 'app-inicio',
@@ -15,14 +16,16 @@ import { ItinerarioService } from '../../services/itinerario.service';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit {
+export class InicioComponent implements OnInit, AfterViewChecked {
+@ViewChild('chatBody') chatBody!: ElementRef;
+
   cursos: any[] = [];
   mis_cursos: any[] = [];
   itinerarios: any[] = [];
   mis_itinerarios: any[] = [];
   mostrarChat = false;
   mensajeActual = '';
-  mensajes: { texto: string, de: 'usuario' | 'bot' }[] = [];
+  mensajes: { texto: string, de: 'usuario' | 'bot', opciones?: string[] | null }[] = [];
 
 
   constructor(
@@ -85,8 +88,8 @@ export class InicioComponent implements OnInit {
           console.error('Error al cargar mis itinerarios:', err);
         }
       });
-
   }
+  
 }
 
   apuntarse(curso: any): void {
@@ -174,6 +177,22 @@ export class InicioComponent implements OnInit {
     });
   }
 
+  seleccionarOpcion(opcion: string): void {
+    this.mensajeActual = opcion;
+    this.enviarMensaje();
+  }
+
+  ngAfterViewChecked() {
+    this.scrollAlFinal();
+  }
+
+  scrollAlFinal() {
+    try {
+      this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;
+    } catch (err) {}
+  }
+
+
   enviarMensaje() {
   const pregunta = this.mensajeActual.trim();
   if (!pregunta) return;
@@ -184,7 +203,12 @@ export class InicioComponent implements OnInit {
 
   this.http.post<any>('http://localhost:8000/api/v1/chatbot/', { pregunta }, { headers }).subscribe({
     next: (resp) => {
-      this.mensajes.push({ texto: resp.respuesta, de: 'bot' });
+      this.mensajes.push({
+        texto: resp.respuesta,
+        de: 'bot',
+        opciones: resp.opciones || null  // Añadimos esto
+      });
+      setTimeout(() => this.scrollAlFinal(), 100); // Si tienes scroll automático
     },
     error: () => {
       this.mensajes.push({ texto: 'Hubo un error al conectar con el servidor.', de: 'bot' });
