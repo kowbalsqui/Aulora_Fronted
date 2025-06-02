@@ -17,6 +17,8 @@ export class LoginComponent {
   errorMessage: string = '';
   successMessage: string = '';
 
+  mostrarPassword1 : boolean = false; 
+
   constructor(public authService: AuthService, private router : Router) {}
 
   login() {

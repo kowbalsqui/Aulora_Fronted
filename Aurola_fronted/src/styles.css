@@ -1,1 +1,105 @@
-/* You can add global styles to this file, and also import other style files */
+/* === MODO OSCURO PROFESIONAL AULORA === */
+body.modo-oscuro {
+  background-color: #1e1e2f;
+  color: #f0f0f0;
+}
+
+/* NAVBAR */
+body.modo-oscuro .navbar {
+  background-color: #2a2a3d !important;
+  color: #f0f0f0;
+}
+body.modo-oscuro .navbar .nav-link {
+  color: #ccc !important;
+}
+body.modo-oscuro .navbar .nav-link:hover {
+  color: #fff !important;
+}
+body.modo-oscuro #Aulora {
+  color: #e5e5e5 !important;
+}
+
+/* CARDS */
+body.modo-oscuro .card {
+  background-color: #2b2b3c;
+  color: #f0f0f0;
+  border-color: #444;
+}
+body.modo-oscuro .card p,
+body.modo-oscuro .card span,
+body.modo-oscuro .card h5,
+body.modo-oscuro .card h6 {
+  color: #e0e0e0 !important;
+}
+
+/* BADGES */
+body.modo-oscuro .badge {
+  background-color: #3a3a50;
+  color: #f0f0f0;
+}
+
+/* BOTONES */
+body.modo-oscuro .btn-outline-primary {
+  color: #bcdcff;
+  border-color: #5a9ad6;
+}
+body.modo-oscuro .btn-outline-primary:hover {
+  background-color: #5a9ad6;
+  color: #fff;
+}
+
+body.modo-oscuro .btn-primary {
+  background-color: #5a9ad6;
+  border-color: #5a9ad6;
+}
+body.modo-oscuro .btn-primary:hover {
+  background-color: #3b82f6;
+}
+
+body.modo-oscuro .btn-outline-secondary {
+  color: #d3d3d3;
+  border-color: #777;
+}
+body.modo-oscuro .btn-outline-secondary:hover {
+  background-color: #444;
+  color: #fff;
+}
+
+/* OFFCANVAS PANEL (PERFIL) */
+body.modo-oscuro .offcanvas {
+  background-color: #2b2b3c !important;
+  color: #f0f0f0;
+}
+body.modo-oscuro .offcanvas .text-muted {
+  color: #cfcfcf !important;
+}
+body.modo-oscuro .offcanvas .btn-close {
+  filter: invert(1);
+}
+
+/* INPUTS Y FORMULARIOS */
+body.modo-oscuro input,
+body.modo-oscuro select,
+body.modo-oscuro textarea {
+  background-color: #2e2e3f;
+  color: #fff;
+  border-color: #555;
+}
+
+/* PROGRESOS */
+body.modo-oscuro .progress {
+  background-color: #444;
+}
+body.modo-oscuro .progress-bar {
+  background-color: #4e9eff !important;
+}
+
+/* TEXTO AUXILIAR */
+body.modo-oscuro .text-muted,
+body.modo-oscuro .text-secondary {
+  color: #c2c2c2 !important;
+}
+
+body.modo-oscuro .card-body{
+    background-color:#1e1e2f !important;
+}

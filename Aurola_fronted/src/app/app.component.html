@@ -3,18 +3,25 @@
     <!-- Logo Aulora -->
     <a class="navbar-brand d-flex align-items-center" href="#">
       <img src="../assets/img/Aulora.png" alt="Aulora Logo" width="40" height="40" class="me-2 rounded-circle">
-      <span class="fs-4 fw-bold">Aulora</span>
+      <span id="Aulora" class="fs-4 fw-bold">Aulora</span>
     </a>
 
     <!-- Enlaces al centro -->
     <div class="navbar-nav mx-auto">
-      <a routerLink="/" class="nav-link px-3">Inicio</a>
+      <a routerLink="/" class="nav-link px-3">Inicio</a>  
       <a routerLink="/cursos" class="nav-link px-3">Cursos</a>
     </div>
 
     <!-- Botones a la derecha -->
     <div class="ms-auto d-flex align-items-center gap-2">
       <ng-container *ngIf="authService.isLoggedIn(); else guestButtons">
+
+         <!-- Botón modo oscuro/claro -->
+        <button class="btn btn-sm" (click)="toggleTema()" [attr.aria-label]="modoOscuro ? 'Modo claro' : 'Modo oscuro'">
+          <i class="bi fs-5" [ngClass]="modoOscuro ? 'bi-sun-fill text-warning' : 'bi-moon-stars-fill text-dark'"></i>
+        </button>
+
+  
         <span class="me-2">{{ authService.getUser()?.nombre }}</span>
 
         <!-- Imagen de perfil que abre el panel -->
@@ -64,16 +71,6 @@
       <span *ngSwitchCase="'2'" class="badge bg-primary me-1">Profesor</span>
       <span *ngSwitchCase="'3'" class="badge bg-secondary me-1">Estudiante</span>
     </ng-container>
-    
-
-    <!-- Tipo de cuenta con texto -->
-    <div class="mb-3">
-      <ng-container [ngSwitch]="authService.getUser()?.tipo_cuenta">
-        <span *ngSwitchCase="'FR'" class="badge bg-success">Cuenta Gratuita</span>
-        <span *ngSwitchCase="'PR'" class="badge bg-info text-dark">Cuenta Premium</span>
-        <span *ngSwitchDefault class="badge bg-warning text-dark">Tipo desconocido</span>
-      </ng-container>
-    </div>
 
     <hr class="my-4" />
     <a routerLink="/perfil" class="btn btn-outline-secondary btn-sm w-100 mb-2">Modificar perfil</a>
