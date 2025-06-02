@@ -42,15 +42,6 @@
             </div>
 
             <div class="mb-3">
-              <label for="tipo_cuenta" class="form-label">Tipo de Cuenta</label>
-              <select class="form-select" id="tipo_cuenta" [(ngModel)]="tipo_cuenta" name="tipo_cuenta" required>
-                <option value="" disabled selected>Selecciona tipo de cuenta</option>
-                <option value="FR">Gratuita</option>
-                <option value="PR">Premium</option>
-              </select>
-            </div>
-
-            <div class="mb-3">
               <label for="foto_perfil" class="form-label">Foto de Perfil (opcional)</label>
               <input type="file" class="form-control" id="foto_perfil" (change)="onFileSelected($event)" name="foto_perfil">
             </div>
