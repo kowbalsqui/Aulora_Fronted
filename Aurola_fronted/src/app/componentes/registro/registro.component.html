@@ -18,13 +18,26 @@
 
             <div class="mb-3">
               <label for="password1" class="form-label">Contraseña</label>
-              <input type="password" class="form-control" id="password1" [(ngModel)]="password1" name="password1" required>
+              <div class="input-group">
+                <input [type]="mostrarPassword1 ? 'text' : 'password'" class="form-control" id="password1"
+                      [(ngModel)]="password1" name="password1" required>
+                <span class="input-group-text" (click)="mostrarPassword1 = !mostrarPassword1" style="cursor: pointer;">
+                  <i [ngClass]="mostrarPassword1 ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </span>
+              </div>
             </div>
 
             <div class="mb-3">
               <label for="password2" class="form-label">Confirmar Contraseña</label>
-              <input type="password" class="form-control" id="password2" [(ngModel)]="password2" name="password2" required>
+              <div class="input-group">
+                <input [type]="mostrarPassword2 ? 'text' : 'password'" class="form-control" id="password2"
+                      [(ngModel)]="password2" name="password2" required>
+                <span class="input-group-text" (click)="mostrarPassword2 = !mostrarPassword2" style="cursor: pointer;">
+                  <i [ngClass]="mostrarPassword2 ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </span>
+              </div>
             </div>
+
 
             <div class="mb-3">
               <label for="rol" class="form-label">Rol</label>

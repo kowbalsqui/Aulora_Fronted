@@ -20,6 +20,9 @@ export class RegistroComponent {
   foto_perfil: File | null = null;
   materia = ''; 
 
+  mostrarPassword1: boolean = false;
+  mostrarPassword2: boolean = false;
+
   successMessage = '';
   errorMessage = '';
 

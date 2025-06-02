@@ -19,11 +19,16 @@
     No estás inscrito en ningún curso todavía.
   </div>
 
-  <div class="row" *ngIf="mis_cursos.length > 0">
+  <div class="row" cdkDropList (cdkDropListDropped)="dropCurso($event)"  *ngIf="mis_cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of mis_cursos">
-      <div class="card border-primary h-100 shadow-sm cursor-pointer" (click)="irAlCurso(curso.id)">
+      <div class="card border-primary h-100 shadow-sm cursor-pointer" cdkDrag>
+
+        <!-- ZONA DE ARRASTRE -->
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <span cdkDragHandle style="cursor: grab;" title="Arrastrar">☰</span>
+        </div>
                 <!-- Imagen del curso -->
-                <img
+                <img  (click)="irAlCurso(curso.id)"
                 *ngIf="curso.foto"
                 [src]="curso.foto"
                 alt="{{ curso.titulo }}"
@@ -58,7 +63,7 @@
           <p *ngIf="curso.progreso_usuario == null">
             <strong>Precio:</strong> {{ curso.precio }} €
           </p>
-          <button class="btn btn-outline-primary w-100 mt-2">Entrar al curso</button>
+          <button class="btn btn-outline-primary w-100 mt-2" (click)="irAlCurso(curso.id)">Entrar al curso</button>
         </div>
       </div>
     </div>
@@ -278,7 +283,7 @@
 <!-- Botón flotante con Bootstrap -->
 <div *ngIf="authService.isEstudiante()">
   <button class="btn btn-primary rounded-circle position-fixed bottom-0 start-0 m-4 shadow"
-          (click)="mostrarChat = !mostrarChat"
+          (click)="abrirChat()"
           style="width: 60px; height: 60px; z-index: 1050;">
     💬
   </button>
@@ -291,7 +296,7 @@
     <button class="btn btn-sm btn-light" (click)="mostrarChat = false">✖</button>
   </div>
 
-  <div class="card-body overflow-auto" style="max-height: 300px;">
+  <div #chatBody class="card-body overflow-auto" style="max-height: 300px;">
     <div *ngFor="let mensaje of mensajes" class="mb-2">
       <div [ngClass]="mensaje.de === 'usuario' ? 'text-end' : 'text-start'">
         <span
@@ -302,13 +307,15 @@
           {{ mensaje.texto }}
         </span>
       </div>
+      
+      <!-- Mostrar opciones si existen -->
+      <div *ngIf="mensaje.opciones?.length" class="mt-2 d-flex flex-wrap gap-2" [ngClass]="mensaje.de === 'usuario' ? 'justify-content-end' : 'justify-content-start'">
+        <button *ngFor="let opcion of mensaje.opciones"
+                class="btn btn-outline-secondary btn-sm"
+                (click)="seleccionarOpcion(opcion)">
+          {{ opcion }}
+        </button>
+      </div>
     </div>
-  </div>
-
-  <div class="card-footer">
-    <form (ngSubmit)="enviarMensaje()" class="d-flex gap-2">
-      <input type="text" class="form-control" [(ngModel)]="mensajeActual" name="mensaje" required placeholder="Escribe algo...">
-      <button type="submit" class="btn btn-primary">→</button>
-    </form>
   </div>
 </div>
