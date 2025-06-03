@@ -1,105 +1,198 @@
-/* === MODO OSCURO PROFESIONAL AULORA === */
+/* === VARIABLES GLOBAL TEMA CLARO (POR DEFECTO) === */
+:root {
+  --color-bg: #ffffff;
+  --color-text: #000000;
+
+  --color-navbar-bg: #f8f9fa;
+  --color-navbar-text: #000000;
+  --color-navbar-hover: #333333;
+
+  --color-card-bg: #ffffff;
+  --color-card-text: #000000;
+  --color-card-border: #ddd;
+
+  --color-badge-bg: #e0e0e0;
+  --color-badge-text: #000000;
+
+  --color-btn-primary-bg: #0d6efd;
+  --color-btn-primary-border: #0d6efd;
+  --color-btn-primary-hover: #0b5ed7;
+
+  --color-btn-outline-primary-text: #0d6efd;
+  --color-btn-outline-primary-border: #0d6efd;
+  --color-btn-outline-primary-hover-bg: #0d6efd;
+  --color-btn-outline-primary-hover-text: #ffffff;
+
+  --color-btn-outline-secondary-text: #6c757d;
+  --color-btn-outline-secondary-border: #6c757d;
+  --color-btn-outline-secondary-hover-bg: #e9ecef;
+  --color-btn-outline-secondary-hover-text: #000000;
+
+  --color-offcanvas-bg: #ffffff;
+  --color-offcanvas-text: #000000;
+
+  --color-input-bg: #ffffff;
+  --color-input-text: #000000;
+  --color-input-border: #ced4da;
+
+  --color-progress-bg: #e9ecef;
+  --color-progress-bar: #0d6efd;
+
+  --color-muted-text: #6c757d;
+}
+
+/* === VARIABLES TEMA OSCURO === */
 body.modo-oscuro {
-  background-color: #1e1e2f;
-  color: #f0f0f0;
+  --color-bg: #1e1e2f;
+  --color-text: #f0f0f0;
+
+  --color-navbar-bg: #2a2a3d;
+  --color-navbar-text: #f0f0f0;
+  --color-navbar-hover: #ffffff;
+
+  --color-card-bg: #2b2b3c;
+  --color-card-text: #f0f0f0;
+  --color-card-border: #444444;
+
+  --color-badge-bg: #3a3a50;
+  --color-badge-text: #f0f0f0;
+
+  --color-btn-primary-bg: #5a9ad6;
+  --color-btn-primary-border: #5a9ad6;
+  --color-btn-primary-hover: #3b82f6;
+
+  --color-btn-outline-primary-text: #bcdcff;
+  --color-btn-outline-primary-border: #5a9ad6;
+  --color-btn-outline-primary-hover-bg: #5a9ad6;
+  --color-btn-outline-primary-hover-text: #ffffff;
+
+  --color-btn-outline-secondary-text: #d3d3d3;
+  --color-btn-outline-secondary-border: #777777;
+  --color-btn-outline-secondary-hover-bg: #444444;
+  --color-btn-outline-secondary-hover-text: #ffffff;
+
+  --color-offcanvas-bg: #2b2b3c;
+  --color-offcanvas-text: #f0f0f0;
+
+  --color-input-bg: #2e2e3f;
+  --color-input-text: #ffffff;
+  --color-input-border: #555555;
+
+  --color-progress-bg: #444444;
+  --color-progress-bar: #4e9eff;
+
+  --color-muted-text: #c2c2c2;
+}
+
+/* === APLICACIÓN DE VARIABLES === */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* NAVBAR */
-body.modo-oscuro .navbar {
-  background-color: #2a2a3d !important;
-  color: #f0f0f0;
+.navbar {
+  background-color: var(--color-navbar-bg) !important;
+  color: var(--color-navbar-text) !important;
+  transition: all 0.3s ease;
 }
-body.modo-oscuro .navbar .nav-link {
-  color: #ccc !important;
+
+.navbar .nav-link {
+  color: var(--color-navbar-text) !important;
 }
-body.modo-oscuro .navbar .nav-link:hover {
-  color: #fff !important;
+.navbar .nav-link:hover {
+  color: var(--color-navbar-hover) !important;
 }
-body.modo-oscuro #Aulora {
-  color: #e5e5e5 !important;
+
+#Aulora {
+  color: var(--color-navbar-text) !important;
 }
 
 /* CARDS */
-body.modo-oscuro .card {
-  background-color: #2b2b3c;
-  color: #f0f0f0;
-  border-color: #444;
+.card {
+  background-color: var(--color-card-bg);
+  color: var(--color-card-text);
+  border-color: var(--color-card-border);
+  transition: all 0.3s ease;
 }
-body.modo-oscuro .card p,
-body.modo-oscuro .card span,
-body.modo-oscuro .card h5,
-body.modo-oscuro .card h6 {
-  color: #e0e0e0 !important;
+.card p, .card span, .card h5, .card h6 {
+  color: var(--color-card-text) !important;
 }
 
 /* BADGES */
-body.modo-oscuro .badge {
-  background-color: #3a3a50;
-  color: #f0f0f0;
+.badge {
+  background-color: var(--color-badge-bg);
+  color: var(--color-badge-text);
 }
 
 /* BOTONES */
-body.modo-oscuro .btn-outline-primary {
-  color: #bcdcff;
-  border-color: #5a9ad6;
+.btn-outline-primary {
+  color: var(--color-btn-outline-primary-text);
+  border-color: var(--color-btn-outline-primary-border);
 }
-body.modo-oscuro .btn-outline-primary:hover {
-  background-color: #5a9ad6;
-  color: #fff;
-}
-
-body.modo-oscuro .btn-primary {
-  background-color: #5a9ad6;
-  border-color: #5a9ad6;
-}
-body.modo-oscuro .btn-primary:hover {
-  background-color: #3b82f6;
+.btn-outline-primary:hover {
+  background-color: var(--color-btn-outline-primary-hover-bg);
+  color: var(--color-btn-outline-primary-hover-text);
 }
 
-body.modo-oscuro .btn-outline-secondary {
-  color: #d3d3d3;
-  border-color: #777;
+.btn-primary {
+  background-color: var(--color-btn-primary-bg);
+  border-color: var(--color-btn-primary-border);
 }
-body.modo-oscuro .btn-outline-secondary:hover {
-  background-color: #444;
-  color: #fff;
+.btn-primary:hover {
+  background-color: var(--color-btn-primary-hover);
+}
+
+.btn-outline-secondary {
+  color: var(--color-btn-outline-secondary-text);
+  border-color: var(--color-btn-outline-secondary-border);
+}
+.btn-outline-secondary:hover {
+  background-color: var(--color-btn-outline-secondary-hover-bg);
+  color: var(--color-btn-outline-secondary-hover-text);
 }
 
 /* OFFCANVAS PANEL (PERFIL) */
-body.modo-oscuro .offcanvas {
-  background-color: #2b2b3c !important;
-  color: #f0f0f0;
+.offcanvas {
+  background-color: var(--color-offcanvas-bg) !important;
+  color: var(--color-offcanvas-text);
 }
-body.modo-oscuro .offcanvas .text-muted {
-  color: #cfcfcf !important;
+.offcanvas .text-muted {
+  color: var(--color-muted-text) !important;
 }
-body.modo-oscuro .offcanvas .btn-close {
+.offcanvas .btn-close {
   filter: invert(1);
 }
 
 /* INPUTS Y FORMULARIOS */
-body.modo-oscuro input,
-body.modo-oscuro select,
-body.modo-oscuro textarea {
-  background-color: #2e2e3f;
-  color: #fff;
-  border-color: #555;
+input, select, textarea {
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  border-color: var(--color-input-border);
+  transition: all 0.3s ease;
 }
 
 /* PROGRESOS */
-body.modo-oscuro .progress {
-  background-color: #444;
+.progress {
+  background-color: var(--color-progress-bg);
 }
-body.modo-oscuro .progress-bar {
-  background-color: #4e9eff !important;
+.progress-bar {
+  background-color: var(--color-progress-bar) !important;
 }
 
 /* TEXTO AUXILIAR */
-body.modo-oscuro .text-muted,
-body.modo-oscuro .text-secondary {
-  color: #c2c2c2 !important;
+.text-muted, .text-secondary {
+  color: var(--color-muted-text) !important;
 }
 
-body.modo-oscuro .card-body{
-    background-color:#1e1e2f !important;
+/* === TRANSICIÓN MODERNA === */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
+
+
+body.modo-oscuro .card-body{
+  background-color:#1e1e2f !important;
+}
+

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild  } from '@angular/core';
 import { Router } from '@angular/router';  // Importamos el Router
 import { RouterModule } from '@angular/router';  // Importar RouterModule
 import { AuthService } from './services/auth.service';
@@ -13,6 +13,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
   imports:[RouterModule, CommonModule, DragDropModule]
 })
 export class AppComponent {
+  @ViewChild('temaNuevo') temaNuevo!: ElementRef;
+
   mostrarPerfil = false;
 
   constructor(private router: Router, public authService: AuthService) {}
@@ -30,21 +32,17 @@ export class AppComponent {
     }
   }
 
-  toggleTema(): void {
+    
+  toggleTema() {
     this.modoOscuro = !this.modoOscuro;
-
-    const body = document.body;
     if (this.modoOscuro) {
-      body.classList.add('modo-oscuro');
+      document.body.classList.add('modo-oscuro');
+      localStorage.setItem('modoOscuro', '1');
     } else {
-      body.classList.remove('modo-oscuro');
-    }
-
-    if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-      localStorage.setItem('modoOscuro', this.modoOscuro ? '1' : '0');
+      document.body.classList.remove('modo-oscuro');
+      localStorage.setItem('modoOscuro', '0');
     }
   }
-
 
   goToLogin() {
     // Navegar a la ruta de login

@@ -59,8 +59,13 @@
               <input type="file" class="form-control" id="foto_perfil" (change)="onFileSelected($event)" name="foto_perfil">
             </div>
 
+            <re-captcha 
+              (resolved)="onCaptchaResolved($event)"
+              siteKey="6LdmOFQrAAAAAPnzg3QLENMM5rurV1jebnCM_KAP">
+            </re-captcha>
+
             <div class="d-grid">
-              <button type="submit" class="btn btn-primary">Registrarse</button>
+              <button type="submit" class="btn btn-primary" [disabled]="!captchaValido">Registrarse</button>
             </div>
           </form>
 
