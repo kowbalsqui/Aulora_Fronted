@@ -21,6 +21,10 @@
           <i class="bi fs-5" [ngClass]="modoOscuro ? 'bi-sun-fill text-warning' : 'bi-moon-stars-fill text-dark'"></i>
         </button>
 
+
+        <!-- Animacion de modo Oscuro-Claro -->
+        <div class="tema-nuevo" [class.modo-oscuro]="!modoOscuro" #temaNuevo></div>
+
   
         <span class="me-2">{{ authService.getUser()?.nombre }}</span>
 

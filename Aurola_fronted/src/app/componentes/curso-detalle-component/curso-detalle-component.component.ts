@@ -62,6 +62,6 @@ export class CursoDetalleComponent implements OnInit {
   }
 
   verDetalle(modulo: any): void {
-    this.router.navigate(['/modulo', modulo.id]);
+    setTimeout(() => this.router.navigate(['/modulo', modulo.id]), 1500);
   }
 }
