@@ -12,6 +12,8 @@ import { ModuloDetalleComponent } from './componentes/modulo-detalle/modulo-deta
 import { ItinerarioDetalleComponent } from './componentes/itinerarios-detalle/itinerarios-detalle.component'
 import { CrearItinerarioComponent } from './componentes/crear-itinerario/crear-itinerario.component';
 import { EditarItinerarioComponent } from './componentes/editar-itinerario/editar-itinerario.component';
+import { RecuperarPasswordComponent } from './componentes/recuperar-password/recuperar-password.component';
+import { ResetearPasswordComponent } from './componentes/resetear-password/resetear-password.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -28,5 +30,7 @@ export const routes: Routes = [
   { path: 'itinerario/:id', component: ItinerarioDetalleComponent},
   { path: 'crear-itinerario', component: CrearItinerarioComponent},
   { path: 'itinerario/editar/:id', component: EditarItinerarioComponent },
+  { path: 'recuperar', component: RecuperarPasswordComponent},
+  { path: 'resetear/:email', component: ResetearPasswordComponent}
 ];
 

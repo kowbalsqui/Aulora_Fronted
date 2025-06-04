@@ -33,7 +33,7 @@ export class ExplorarCursosComponent implements OnInit {
 
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
 
-    this.searchChanged.pipe(debounceTime(50)).subscribe((term) => {
+    this.searchChanged.pipe(debounceTime(1)).subscribe((term) => {
       this.searchTerm = term;
       this.cargarCursos();
     });

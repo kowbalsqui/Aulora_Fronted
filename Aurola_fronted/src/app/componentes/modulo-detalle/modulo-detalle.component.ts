@@ -18,6 +18,7 @@ export class ModuloDetalleComponent implements OnInit {
   errorMessage: string | null = null;
   successMessage: string | null = null; 
   moduloCompletado: boolean = false;
+  cargando: boolean = true; 
 
   constructor(
     private route: ActivatedRoute,
@@ -37,8 +38,10 @@ export class ModuloDetalleComponent implements OnInit {
         this.modulo = res;
         this.moduloCompletado = this.modulo.completado;
         this.contenidoSeguro = this.sanitizer.bypassSecurityTrustHtml(this.modulo.contenido); // 👈 aquí dentro
+        this.cargando = false; 
       },
       error: () => {
+        this.cargando = false; 
         this.errorMessage = 'No se pudo cargar el módulo.';
       }
     });

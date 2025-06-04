@@ -1,52 +1,64 @@
-<div class="container mt-5" *ngIf="modulo; else errorTpl">
-    <div class="card shadow-lg border-0">
-      <div class="card-body">
-        <!-- Título del módulo -->
-        <h2 class="card-title text-primary text-center mb-4">
-          {{ modulo.titulo }}
-        </h2>
-  
-        <!-- Contenido con estilos limpios -->
-        <div class="card-text fs-5" [innerHTML]="contenidoSeguro"></div>
-  
-        <!-- Archivo adjunto -->
-        <div *ngIf="modulo.archivo" class="mt-4">
-          <h5 class="fw-semibold mb-3">📎 Archivo adjunto:</h5>
-  
-          <img *ngIf="modulo.tipo_archivo === 'foto'" 
-               [src]="modulo.archivo"
-               class="img-fluid rounded shadow-sm d-block mx-auto" 
-               alt="Imagen del módulo" 
-               style="max-height: 400px;" />
-  
-          <video *ngIf="modulo.tipo_archivo === 'video'" 
-                 controls 
-                 class="w-100 rounded shadow-sm mb-3">
-            <source [src]="modulo.archivo" type="video/mp4" />
-            Tu navegador no soporta video.
-          </video>
-  
-          <a *ngIf="modulo.tipo_archivo === 'documento'" 
-             [href]="modulo.archivo"
-             target="_blank"
-             class="btn btn-outline-secondary d-inline-flex align-items-center gap-2">
-            📄 Ver documento
-          </a>
-        </div>
+<div class="container mt-5" *ngIf="modulo; else cargandoTpl">
+  <div class="card shadow border-0 rounded-4">
+    <div class="card-body p-5">
+
+      <!-- TÍTULO DEL MÓDULO -->
+      <h2 class="card-title text-primary text-center mb-4 display-6">
+        {{ modulo.titulo }}
+      </h2>
+
+      <!-- CONTENIDO -->
+      <div class="card-text fs-5 lh-lg" [innerHTML]="contenidoSeguro"></div>
+
+      <!-- ARCHIVO ADJUNTO -->
+      <div *ngIf="modulo.archivo" class="mt-5">
+        <h5 class="fw-semibold mb-3 d-flex align-items-center">
+          <i class="bi bi-paperclip me-2"></i> Archivo adjunto
+        </h5>
+
+        <img *ngIf="modulo.tipo_archivo === 'foto'"
+             [src]="modulo.archivo"
+             class="img-fluid rounded-3 shadow-sm d-block mx-auto"
+             alt="Imagen del módulo"
+             style="max-height: 400px;" />
+
+        <video *ngIf="modulo.tipo_archivo === 'video'"
+               controls
+               class="w-100 rounded-3 shadow-sm">
+          <source [src]="modulo.archivo" type="video/mp4" />
+          Tu navegador no soporta video.
+        </video>
+
+        <a *ngIf="modulo.tipo_archivo === 'documento'"
+           [href]="modulo.archivo"
+           target="_blank"
+           class="btn btn-outline-primary mt-3 d-inline-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark-text"></i> Ver documento
+        </a>
       </div>
-      <!-- Botón para marcar como completado (solo estudiantes) -->
-        <button *ngIf="authService.isEstudiante() && !moduloCompletado" 
-          class="btn btn-outline-success mt-3" 
-          (click)="completarModulo(modulo.id)">
+
+      <!-- BOTÓN COMPLETAR MÓDULO -->
+      <div class="text-center mt-5" *ngIf="authService.isEstudiante() && !moduloCompletado">
+        <button class="btn btn-success btn-lg px-4 py-2 rounded-pill shadow-sm"
+                (click)="completarModulo(modulo.id)">
           ✅ Marcar como completado
         </button>
+      </div>
+
     </div>
   </div>
-  
-  <!-- Error de carga -->
-  <ng-template #errorTpl>
-    <div class="alert alert-danger mt-5 text-center">
-      {{ errorMessage || 'Error al cargar el módulo.' }}
-    </div>
-  </ng-template>
-  
+</div>
+
+<ng-template #cargandoTpl>
+  <div class="text-center mt-5">
+    <div class="spinner-border text-primary" role="status"></div>
+    <p class="mt-3">Cargando módulos...</p>
+  </div>
+</ng-template>
+
+<!-- ERROR DE CARGA -->
+<ng-template #errorTpl>
+  <div class="alert alert-danger mt-5 text-center rounded-4 shadow-sm p-4 fs-5">
+    {{ errorMessage || '❌ Error al cargar el módulo.' }}
+  </div>
+</ng-template>

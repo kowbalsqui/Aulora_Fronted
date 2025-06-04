@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 export class PerfilComponent {
   nombre = ''; 
   contrasena = ''; 
-  tipo_cuenta = ''; 
+  tipo_cuenta = 'FR'; 
   cursos_completados = 0;
   foto_perfil : File | null = null;  
   susscesMessage : string | null = null;

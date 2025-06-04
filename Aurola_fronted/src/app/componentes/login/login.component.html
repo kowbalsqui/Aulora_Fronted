@@ -10,13 +10,25 @@
         </div>
 
         <div class="mb-3">
-          <label for="password" class="form-label">Contraseña:</label>
-          <input type="password" class="form-control" id="password" [(ngModel)]="password" name="password" required />
-        </div>
+              <label for="password1" class="form-label">Contraseña</label>
+              <div class="input-group">
+                <input [type]="mostrarPassword1 ? 'text' : 'password'" class="form-control" id="password1"
+                      [(ngModel)]="password" name="password1" required>
+                <span class="input-group-text" (click)="mostrarPassword1 = !mostrarPassword1" style="cursor: pointer;">
+                  <i [ngClass]="mostrarPassword1 ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+                </span>
+              </div>
+            </div>
 
         <div class="d-grid">
           <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
         </div>
+
+        <!-- 🔗 Enlace de recuperación -->
+        <div class="text-center mt-3">
+          <a routerLink="/recuperar" class="text-decoration-none">¿Has olvidado tu contraseña?</a>
+        </div>
+
       </form>
 
       <div *ngIf="successMessage" class="alert alert-success mt-3">
