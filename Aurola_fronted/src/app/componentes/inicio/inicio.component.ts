@@ -57,6 +57,25 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ngOnInit(): void {
       const token = this.authService.getToken();
 
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-cursos/', { headers }).subscribe({
+        next: (res) => {
+          this.mis_cursos = res;
+        },
+        error: (err) => {
+          console.error('Error al cargar cursos:', err);
+        }
+      });
+
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/cursos/?limit=5', { headers }).subscribe({
+        next: (res) => {
+          this.cursos = res;
+        },
+        error: (err) => {
+          console.error('Error al cargar cursos:', err);
+        }
+      });
+
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/itinerarios/?limit=5', { headers }).subscribe({
       if (token) {
         const headers = new HttpHeaders({
           Authorization: 'Token ' + token
@@ -192,6 +211,13 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       this.enviarMensaje(opcion);
     }
 
+    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/itinerarios/', { headers }).subscribe({
+      next: (res) => {
+        this.itinerarios = res.filter(it => !it.inscrito);
+      },
+      error: (err) => {
+        console.error('Error al cargar los itinerarios :', err);
+
     abrirChat() {
       this.mostrarChat = true;
       if (this.mensajes.length === 0) {
@@ -204,17 +230,35 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
       this.scrollAlFinal();
     }
 
+    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-cursos/', { headers }).subscribe({
+      next: (res) =>{
+        this.mis_cursos = res
+        console.log('mis cursos actualizados correctamente');
+      },
+      error: (err) =>{
+        console.error('Error al actualizar mis cursos '+ err);
+      }
+    });
+  }
+
     scrollAlFinal() {
       try {
         this.chatBody.nativeElement.scrollTop = this.chatBody.nativeElement.scrollHeight;
       } catch (err) {}
     }
 
-
     enviarMensaje(mensaje:string) {
     const pregunta = this.mensajeActual.trim();
     if (!pregunta) return;
 
+    this.http.post(`http://34.236.97.194:8000/api/v1/itinerarios/${itinerario.id}/pagar/`, {}, {
+      headers: { Authorization: 'Token ' + token }
+    }).subscribe({
+      next: () => {
+        alert('✅ Pago exitoso. Inscrito en el itinerario y sus cursos.');
+        // Refrescar los datos del usuario
+        this.itinerarioService.getMisItinerarios().subscribe({
+          next: (res) => this.mis_itinerarios = res
     this.mensajes.push({ texto: pregunta, de: 'usuario' });
 
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
@@ -232,8 +276,18 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         this.mensajes.push({ texto: 'Hubo un error al conectar con el servidor.', de: 'bot' });
       }
     });
+        
+  this.http.post<any>('http://34.236.97.194:8000/api/v1/chatbot/', { pregunta }, { headers }).subscribe({
+    next: (resp) => {
+      this.mensajes.push({ texto: resp.respuesta, de: 'bot' });
+    },
+    error: () => {
+      this.mensajes.push({ texto: 'Hubo un error al conectar con el servidor.', de: 'bot' });
+    }
+  });
 
+  this.mensajeActual = '';
+}
     this.mensajeActual = '';
   }
-
   }

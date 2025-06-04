@@ -28,18 +28,12 @@
                 "input": "public",
                 "output": "/"
               }
-            ]
-            ,
+            ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": [],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -96,8 +90,7 @@
                 "input": "public",
                 "output": "/"
               }
-            ]
-            ,
+            ],
             "styles": [
               "src/styles.css"
             ],

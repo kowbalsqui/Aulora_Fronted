@@ -35,7 +35,7 @@ export class EditarItinerarioComponent implements OnInit {
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
     this.itinerarioId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.http.get(`http://localhost:8000/api/v1/itinerarios/${this.itinerarioId}/`, { headers }).subscribe({
+    this.http.get(`http://34.236.97.194:8000/api/v1/itinerarios/${this.itinerarioId}/`, { headers }).subscribe({
       next: (res: any) => {
         this.itinerario = res;
         this.titulo = res.titulo;
@@ -48,7 +48,7 @@ export class EditarItinerarioComponent implements OnInit {
       }
     });
 
-    this.http.get('http://localhost:8000/api/v1/cursos/', { headers }).subscribe({
+    this.http.get('http://34.236.97.194:8000/api/v1/cursos/', { headers }).subscribe({
       next: (res: any) => this.cursosDisponibles = res,
       error: () => this.errorMessage = 'Error al cargar cursos'
     });
@@ -71,7 +71,7 @@ export class EditarItinerarioComponent implements OnInit {
       cursos: this.cursosSeleccionados
     };
 
-    this.http.put(`http://localhost:8000/api/v1/itinerarios/${this.itinerarioId}/`, payload, { headers }).subscribe({
+    this.http.put(`http://34.236.97.194:8000/api/v1/itinerarios/${this.itinerarioId}/`, payload, { headers }).subscribe({
       next: () => {
         this.successMessage = 'Itinerario actualizado correctamente';
         setTimeout(() => this.router.navigate(['/']), 2000);

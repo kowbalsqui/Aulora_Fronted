@@ -32,7 +32,7 @@
         <img
           (click)="mostrarPerfil = true"
           *ngIf="authService.getUser()?.foto_perfil"
-          [src]="'http://localhost:8000/' + authService.getUser()?.foto_perfil"
+          [src]="'http://34.236.97.194:8000' + authService.getUser()?.foto_perfil"
           alt="Foto de perfil"
           width="60"
           height="60"
@@ -61,7 +61,7 @@
     <button type="button" class="btn-close" (click)="mostrarPerfil = false"></button>
   </div>
   <div class="offcanvas-body text-center">
-    <img [src]="'http://localhost:8000/' + authService.getUser()?.foto_perfil"
+    <img [src]="'http://34.236.97.194:8000' + authService.getUser()?.foto_perfil"
          class="rounded-circle mb-3 border"
          width="100" height="100" alt="Foto">
 
