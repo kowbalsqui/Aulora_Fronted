@@ -3,13 +3,14 @@ import { FormsModule } from '@angular/forms';  // Importa FormsModule
 import { CommonModule } from '@angular/common'; // Importa CommonModuleç
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router'
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  imports: [CommonModule, FormsModule]  // Asegúrate de que estos módulos estén aquí
+  imports: [CommonModule, FormsModule, RouterModule]  // Asegúrate de que estos módulos estén aquí
 })
 export class LoginComponent {
   email: string = '';
