@@ -49,7 +49,7 @@ export class InicioComponent implements OnInit {
         Authorization: 'Token ' + token
       });
 
-      this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-cursos/', { headers }).subscribe({
         next: (res) => {
           this.mis_cursos = res;
         },
@@ -58,7 +58,7 @@ export class InicioComponent implements OnInit {
         }
       });
 
-      this.http.get<any[]>('http://localhost:8000/api/v1/cursos/?limit=5', { headers }).subscribe({
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/cursos/?limit=5', { headers }).subscribe({
         next: (res) => {
           this.cursos = res;
         },
@@ -67,7 +67,7 @@ export class InicioComponent implements OnInit {
         }
       });
 
-      this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/?limit=5', { headers }).subscribe({
+      this.http.get<any[]>('http://34.236.97.194:8000/api/v1/itinerarios/?limit=5', { headers }).subscribe({
         next: (res) => {
           this.itinerarios = res.filter(it => !it.inscrito);
         },
@@ -127,7 +127,7 @@ export class InicioComponent implements OnInit {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
 
-    this.http.get<any[]>('http://localhost:8000/api/v1/itinerarios/', { headers }).subscribe({
+    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/itinerarios/', { headers }).subscribe({
       next: (res) => {
         this.itinerarios = res.filter(it => !it.inscrito);
       },
@@ -141,7 +141,7 @@ export class InicioComponent implements OnInit {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: 'Token ' + token});
 
-    this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
+    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-cursos/', { headers }).subscribe({
       next: (res) =>{
         this.mis_cursos = res
         console.log('mis cursos actualizados correctamente');
@@ -156,7 +156,7 @@ export class InicioComponent implements OnInit {
   pagarItinerario(itinerario: any): void {
     const token = this.authService.getToken();
 
-    this.http.post(`http://localhost:8000/api/v1/itinerarios/${itinerario.id}/pagar/`, {}, {
+    this.http.post(`http://34.236.97.194:8000/api/v1/itinerarios/${itinerario.id}/pagar/`, {}, {
       headers: { Authorization: 'Token ' + token }
     }).subscribe({
       next: () => {
@@ -182,7 +182,7 @@ export class InicioComponent implements OnInit {
 
   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-  this.http.post<any>('http://localhost:8000/api/v1/chatbot/', { pregunta }, { headers }).subscribe({
+  this.http.post<any>('http://34.236.97.194:8000/api/v1/chatbot/', { pregunta }, { headers }).subscribe({
     next: (resp) => {
       this.mensajes.push({ texto: resp.respuesta, de: 'bot' });
     },

@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>('http://localhost:8000/api/v1/login/', {
+    return this.http.post<any>('http://34.236.97.194:8000/api/v1/login/', {
       email,
       password
     }).pipe(

@@ -58,10 +58,10 @@ export class RegistroComponent {
     formData.append('foto_perfil', this.foto_perfil);
   }
 
-  this.http.post<any>('http://localhost:8000/api/v1/register/', formData).subscribe({
+  this.http.post<any>('http://34.236.97.194:8000/api/v1/register/', formData).subscribe({
     next: () => {
       // 🔥 Auto-login al registrarse
-      this.http.post<any>('http://localhost:8000/api/v1/login/', {
+      this.http.post<any>('http://34.236.97.194:8000/api/v1/login/', {
         email: this.email,
         password: this.password1
       }).subscribe({

@@ -29,7 +29,7 @@ export class PerfilComponent {
       return;
     }
   
-    this.http.get<any>('http://localhost:8000/api/v1/perfil/', {
+    this.http.get<any>('http://34.236.97.194:8000/api/v1/perfil/', {
       headers: { Authorization: 'Token ' + token }
     }).subscribe({
       next: (user) => {
@@ -67,7 +67,7 @@ export class PerfilComponent {
       formData.append('foto_perfil', this.foto_perfil);
     }
   
-    this.http.put('http://localhost:8000/api/v1/perfil/', formData, {
+    this.http.put('http://34.236.97.194:8000/api/v1/perfil/', formData, {
       headers: { Authorization: 'Token ' + token }
     }).subscribe({
       next: (res) => {
