@@ -37,6 +37,16 @@ app.use(
   }),
 );
 
+// 👇 AÑADE ESTO
+app.use(
+  '/assets',
+  express.static(resolve(browserDistFolder, 'assets'), {
+    maxAge: '1y',
+    index: false,
+    redirect: false,
+  }),
+);
+
 /**
  * Handle all other requests by rendering the Angular application.
  */

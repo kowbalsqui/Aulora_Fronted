@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CursoService } from '../../services/curso.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-curso-detalle',
@@ -25,7 +26,8 @@ export class CursoDetalleComponent implements OnInit {
     private route: ActivatedRoute,
     private cursoService: CursoService,
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {}
 
   ngOnInit(): void {
@@ -64,4 +66,22 @@ export class CursoDetalleComponent implements OnInit {
   verDetalle(modulo: any): void {
     setTimeout(() => this.router.navigate(['/modulo', modulo.id]), 1500);
   }
-}
+
+  eliminarModulo(id : number){
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders({ Authorization: 'Token ' + token });
+    const confirmar = confirm(`¿Estás seguro de que quieres eliminar el curso`);
+
+    if (!confirmar){
+      return; 
+    }
+
+    this.http.delete(`http://localhost:8000/api/v1/modulos/${id}/`, { headers }).subscribe({
+      next: () => {
+        this.modulos = this.modulos.filter((c) => c.id !== id);
+        this.router.navigate(['/']);
+      },
+      error: (err) => console.error('Error al eliminar curso', err),
+    });
+  }
+} 

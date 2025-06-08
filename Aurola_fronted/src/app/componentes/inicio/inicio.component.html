@@ -1,12 +1,18 @@
-<div class="container mt-5" *ngIf="authService.isLoggedIn(); else registroRequerido">
-
+<div
+  class="container mt-5"
+  *ngIf="authService.isLoggedIn(); else registroRequerido"
+>
   <!-- BOTÓN PARA PROFESORES -->
   <div *ngIf="authService.isProfesor()" class="mb-4 text-end">
-    <a routerLink="/crear-curso" class="btn btn-outline-primary">➕ Añadir nuevo curso</a>
+    <a routerLink="/crear-curso" class="btn btn-outline-primary"
+      >➕ Añadir nuevo curso</a
+    >
   </div>
 
   <div *ngIf="authService.isProfesor()" class="mb-4 text-end">
-    <a routerLink="/crear-itinerario" class="btn btn-outline-primary">➕ Añadir nuevo itinerario</a>
+    <a routerLink="/crear-itinerario" class="btn btn-outline-primary"
+      >➕ Añadir nuevo itinerario</a
+    >
   </div>
 
   <!-- CURSOS INSCRITOS -->
@@ -15,47 +21,79 @@
 
     <h4>Mis Cursos</h4>
 
-    <div *ngIf="mis_cursos; else cargandoTpl">
-    </div>
+    <div *ngIf="mis_cursos; else cargandoTpl"></div>
 
     <div *ngIf="mis_cursos.length === 0" class="alert alert-info">
       No estás inscrito en ningún curso todavía.
     </div>
 
-    <div class="row" cdkDropList (cdkDropListDropped)="dropCurso($event)" *ngIf="mis_cursos.length > 0">
+    <div
+      class="row"
+      cdkDropList
+      (cdkDropListDropped)="dropCurso($event)"
+      *ngIf="mis_cursos.length > 0"
+    >
       <div class="col-md-4 mb-3" *ngFor="let curso of mis_cursos">
         <div class="card border-primary h-100 shadow-sm cursor-pointer" cdkDrag>
-
           <!-- ZONA DE ARRASTRE -->
-          <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-            <span cdkDragHandle style="cursor: grab;" title="Arrastrar">☰</span>
+          <div
+            class="card-header bg-primary text-white d-flex justify-content-between align-items-center"
+          >
+            <span cdkDragHandle style="cursor: grab" title="Arrastrar">☰</span>
           </div>
           <!-- Imagen del curso -->
-          <img (click)="irAlCurso(curso.id)" *ngIf="curso.foto" [src]="curso.foto" alt="{{ curso.titulo }}"
-            class="card-img-top" style="object-fit: cover; height: 180px;" />
+          <img
+            (click)="irAlCurso(curso.id)"
+            *ngIf="curso.foto"
+            [src]="curso.foto"
+            alt="{{ curso.titulo }}"
+            class="card-img-top"
+            style="object-fit: cover; height: 180px"
+          />
           <div class="card-header bg-primary text-white">
             {{ curso.titulo }}
           </div>
           <div class="card-body">
             <p class="card-text">{{ curso.descripcion }}</p>
-            <p><strong>Categoría:</strong> {{ curso.categoria_nombre|| 'N/A' }}</p>
+            <p>
+              <strong>Categoría:</strong> {{ curso.categoria_nombre || "N/A" }}
+            </p>
             <!-- Mostrar progreso solo si es estudiante e inscrito -->
-            <p *ngIf="authService.isEstudiante() && curso.progreso_usuario != null">
+            <p
+              *ngIf="
+                authService.isEstudiante() && curso.progreso_usuario != null
+              "
+            >
               <strong>Progreso:</strong> {{ curso.progreso_usuario }}%
             </p>
 
             <!-- Mostrar barra de progreso -->
-            <div class="progress mb-2" *ngIf="authService.isEstudiante() && curso.progreso_usuario != null">
-              <div class="progress-bar" role="progressbar" [style.width.%]="curso.progreso_usuario"
-                [attr.aria-valuenow]="curso.progreso_usuario" aria-valuemin="0" aria-valuemax="100">
-              </div>
+            <div
+              class="progress mb-2"
+              *ngIf="
+                authService.isEstudiante() && curso.progreso_usuario != null
+              "
+            >
+              <div
+                class="progress-bar"
+                role="progressbar"
+                [style.width.%]="curso.progreso_usuario"
+                [attr.aria-valuenow]="curso.progreso_usuario"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
             </div>
 
             <!-- Mostrar precio solo si no hay progreso (es decir, no inscrito) -->
             <p *ngIf="curso.progreso_usuario == null">
               <strong>Precio:</strong> {{ curso.precio }} €
             </p>
-            <button class="btn btn-outline-primary w-100 mt-2" (click)="irAlCurso(curso.id)">Entrar al curso</button>
+            <button
+              class="btn btn-outline-primary w-100 mt-2"
+              (click)="irAlCurso(curso.id)"
+            >
+              Entrar al curso
+            </button>
           </div>
         </div>
       </div>
@@ -69,18 +107,29 @@
 
     <div class="row" *ngIf="mis_itinerarios.length > 0">
       <div class="col-md-4 mb-3" *ngFor="let itinerario of mis_itinerarios">
-        <div class="card h-100 shadow-sm" (click)="irAlItinerario(itinerario.id)">
+        <div
+          class="card h-100 shadow-sm"
+          (click)="irAlItinerario(itinerario.id)"
+        >
           <div class="card-body">
             <h5 class="card-title">{{ itinerario.titulo }}</h5>
             <p class="card-text">{{ itinerario.descripcion }}</p>
-            <p *ngIf="itinerario.precio === 0"><strong>Precio:</strong> Gratis</p>
-            <p *ngIf="itinerario.precio > 0"><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+            <p *ngIf="itinerario.precio === 0">
+              <strong>Precio:</strong> Gratis
+            </p>
+            <p *ngIf="itinerario.precio > 0">
+              <strong>Precio:</strong> {{ itinerario.precio }} €
+            </p>
 
             <div *ngIf="itinerario.cursos_detalles?.length > 0">
               <h6 class="mt-3">Cursos incluidos:</h6>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let curso of itinerario.cursos_detalles">
-                  <strong>{{ curso.titulo }}</strong><br>
+                <li
+                  class="list-group-item"
+                  *ngFor="let curso of itinerario.cursos_detalles"
+                >
+                  <strong>{{ curso.titulo }}</strong
+                  ><br />
                   <small>{{ curso.descripcion }}</small>
                 </li>
               </ul>
@@ -91,21 +140,24 @@
             </p>
 
             <div class="progress mb-2">
-              <div class="progress-bar bg-success" [style.width.%]="itinerario.progreso"
-                [attr.aria-valuenow]="itinerario.progreso" aria-valuemin="0" aria-valuemax="100">
-              </div>
+              <div
+                class="progress-bar bg-success"
+                [style.width.%]="itinerario.progreso"
+                [attr.aria-valuenow]="itinerario.progreso"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
-    <hr class="my-5">
+    <hr class="my-5" />
 
     <h4 class="text-center">Sugerencias de cursos</h4>
 
-    <br>
+    <br />
 
     <div *ngIf="cursos.length === 0" class="alert alert-secondary">
       No hay sugerencias disponibles.
@@ -115,30 +167,47 @@
       <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
         <div class="card h-100 shadow cursor-pointer">
           <!-- Imagen del curso -->
-          <img *ngIf="curso.foto" [src]="curso.foto" alt="{{ curso.titulo }}" class="card-img-top"
-            style="object-fit: cover; height: 180px;" />
+          <img
+            *ngIf="curso.foto"
+            [src]="curso.foto"
+            alt="{{ curso.titulo }}"
+            class="card-img-top"
+            style="object-fit: cover; height: 180px"
+          />
           <div class="card-body">
             <h5 class="card-title">{{ curso.titulo }}</h5>
             <p class="card-text">{{ curso.descripcion }}</p>
-            <p><strong>Categoría:</strong> {{ curso.categoria_nombre || 'N/A' }}</p>
+            <p>
+              <strong>Categoría:</strong> {{ curso.categoria_nombre || "N/A" }}
+            </p>
             <p *ngIf="curso.precio === 0"><strong>Precio:</strong> Gratis</p>
-            <p *ngIf="curso.precio > 0"><strong>Precio:</strong> {{ curso.precio }} €</p>
+            <p *ngIf="curso.precio > 0">
+              <strong>Precio:</strong> {{ curso.precio }} €
+            </p>
 
             <!-- Botón según rol -->
-            <button class="btn btn-success w-100 mt-2" (click)="apuntarse(curso)"
-              *ngIf="authService.isEstudiante()">Apuntarme</button>
+            <button
+              class="btn btn-success w-100 mt-2"
+              (click)="apuntarse(curso)"
+              *ngIf="authService.isEstudiante()"
+            >
+              Apuntarme
+            </button>
           </div>
         </div>
       </div>
     </div>
 
-    <br>
+    <br />
 
     <h4 class="text-center">Sugerencias de Itinerarios</h4>
 
-    <br>
+    <br />
 
-    <div *ngIf="itinerarios.length === 0" class="alert alert-secondary text-center">
+    <div
+      *ngIf="itinerarios.length === 0"
+      class="alert alert-secondary text-center"
+    >
       No hay sugerencias disponibles de itinerarios.
     </div>
 
@@ -149,14 +218,22 @@
             <h5 class="card-title">{{ itinerario.titulo }}</h5>
             <p class="card-text">{{ itinerario.descripcion }}</p>
 
-            <p *ngIf="itinerario.precio === 0"><strong>Precio:</strong> Gratis</p>
-            <p *ngIf="itinerario.precio > 0"><strong>Precio:</strong> {{ itinerario.precio }} €</p>
+            <p *ngIf="itinerario.precio === 0">
+              <strong>Precio:</strong> Gratis
+            </p>
+            <p *ngIf="itinerario.precio > 0">
+              <strong>Precio:</strong> {{ itinerario.precio }} €
+            </p>
 
             <div *ngIf="itinerario.cursos_detalles?.length > 0">
               <h6 class="mt-3">Cursos incluidos:</h6>
               <ul class="list-group list-group-flush">
-                <li class="list-group-item" *ngFor="let curso of itinerario.cursos_detalles">
-                  <strong>{{ curso.titulo }}</strong><br />
+                <li
+                  class="list-group-item"
+                  *ngFor="let curso of itinerario.cursos_detalles"
+                >
+                  <strong>{{ curso.titulo }}</strong
+                  ><br />
                   <small>{{ curso.descripcion }}</small>
                 </li>
               </ul>
@@ -164,22 +241,32 @@
 
             <!-- Mostrar mensaje o botón según si está inscrito -->
             <div *ngIf="authService.isEstudiante()">
-              <div *ngIf="itinerario.inscrito" class="alert alert-info mt-3 text-center">
+              <div
+                *ngIf="itinerario.inscrito"
+                class="alert alert-info mt-3 text-center"
+              >
                 Ya estás inscrito en este itinerario.
               </div>
-              <button class="btn btn-success w-100 mt-3" *ngIf="!itinerario.inscrito && authService.isEstudiante()"
-                (click)="(itinerario.precio || 0) > 0 
-              ? router.navigate(['/pago', 'itinerario', itinerario.id]) 
-              : apuntarseItinerarios(itinerario)">
-                {{ (itinerario.precio || 0) > 0 ? 'Pagar ' + itinerario.precio + ' €' : 'Apuntarme' }}
+              <button
+                class="btn btn-success w-100 mt-3"
+                *ngIf="!itinerario.inscrito && authService.isEstudiante()"
+                (click)="
+                  (itinerario.precio || 0) > 0
+                    ? router.navigate(['/pago', 'itinerario', itinerario.id])
+                    : apuntarseItinerarios(itinerario)
+                "
+              >
+                {{
+                  (itinerario.precio || 0) > 0
+                    ? "Pagar " + itinerario.precio + " €"
+                    : "Apuntarme"
+                }}
               </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-
   </div>
 </div>
 
@@ -187,40 +274,65 @@
   <h2 class="mb-4">Cursos e Itinerarios</h2>
 
   <h4 class="text-center">Cursos</h4>
-
-  <br>
+  <br />
 
   <div class="row" *ngIf="cursos.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let curso of cursos">
-      <div class="card h-100 shadow">
-        <!-- Imagen del curso -->
-        <img *ngIf="curso.foto" [src]="curso.foto" alt="{{ curso.titulo }}" class="card-img-top"
-          style="object-fit: cover; height: 180px;" />
+      <div class="card h-100 shadow position-relative">
+        <!-- Botón eliminar curso -->
+        <button
+          class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+          (click)="eliminarCurso(curso.id)"
+        >
+          ✖
+        </button>
+
+        <img
+          *ngIf="curso.foto"
+          [src]="curso.foto"
+          alt="{{ curso.titulo }}"
+          class="card-img-top"
+          style="object-fit: cover; height: 180px"
+        />
 
         <div class="card-body">
           <h5 class="card-title">{{ curso.titulo }}</h5>
           <p class="card-text">{{ curso.descripcion }}</p>
-          <p><strong>Categoría:</strong> {{ curso.categoria_nombre || 'N/A' }}</p>
+          <p>
+            <strong>Categoría:</strong> {{ curso.categoria_nombre || "N/A" }}
+          </p>
           <p *ngIf="curso.precio === 0"><strong>Precio:</strong> Gratis</p>
-          <p *ngIf="curso.precio > 0"><strong>Precio:</strong> {{ curso.precio }} €</p>
+          <p *ngIf="curso.precio > 0">
+            <strong>Precio:</strong> {{ curso.precio }} €
+          </p>
 
-          <!-- Botón según rol -->
-          <button class="btn btn-outline-secondary w-100 mt-2" *ngIf="authService.isProfesor()"
-            (click)="irAlCurso(curso.id)">Ver curso</button>
+          <button
+            class="btn btn-outline-secondary w-100 mt-2"
+            (click)="irAlCurso(curso.id)"
+          >
+            Ver curso
+          </button>
         </div>
       </div>
     </div>
   </div>
 
-  <br>
+  <br />
 
   <h4 class="text-center">Itinerarios</h4>
-
-  <br>
+  <br />
 
   <div class="row" *ngIf="itinerarios.length > 0">
     <div class="col-md-4 mb-3" *ngFor="let itinerario of itinerarios">
-      <div class="card h-100 shadow">
+      <div class="card h-100 shadow position-relative">
+        <!-- Botón eliminar itinerario -->
+        <button
+          class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+          (click)="eliminarItinerario(itinerario.id)"
+        >
+          ✖
+        </button>
+
         <div class="card-body">
           <h5 class="card-title">{{ itinerario.titulo }}</h5>
           <p class="card-text">{{ itinerario.descripcion }}</p>
@@ -228,19 +340,23 @@
           <div *ngIf="itinerario.cursos_detalles?.length > 0">
             <h6 class="mt-3">Cursos incluidos:</h6>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item" *ngFor="let curso of itinerario.cursos_detalles">
-                <strong>{{ curso.titulo }}</strong><br>
+              <li
+                class="list-group-item"
+                *ngFor="let curso of itinerario.cursos_detalles"
+              >
+                <strong>{{ curso.titulo }}</strong
+                ><br />
                 <small>{{ curso.descripcion }}</small>
               </li>
             </ul>
           </div>
 
-          <!-- Botón según rol -->
-          <div *ngIf="authService.isProfesor()">
-            <button class="btn btn-outline-secondary w-100 mt-3" (click)="irAlItinerario(itinerario.id)">
-              Ver itinerario
-            </button>
-          </div>
+          <button
+            class="btn btn-outline-secondary w-100 mt-3"
+            (click)="irAlItinerario(itinerario.id)"
+          >
+            Ver itinerario
+          </button>
         </div>
       </div>
     </div>
@@ -252,41 +368,69 @@
   <div class="container mt-5 text-center">
     <div class="alert alert-warning">
       <h4 class="alert-heading">Inicia sesion o registrate!</h4>
-      <p><a routerLink="/login">iniciar sesión</a> o <a routerLink="/register">registrarte</a></p>
+      <p>
+        <a routerLink="/login">iniciar sesión</a> o
+        <a routerLink="/register">registrarte</a>
+      </p>
     </div>
   </div>
 </ng-template>
 
 <!-- Botón flotante con Bootstrap -->
 <div *ngIf="authService.isEstudiante()">
-  <button class="btn btn-primary rounded-circle position-fixed bottom-0 start-0 m-4 shadow" (click)="abrirChat()"
-    style="width: 60px; height: 60px; z-index: 1050;">
+  <button
+    class="btn btn-primary rounded-circle position-fixed bottom-0 start-0 m-4 shadow"
+    (click)="abrirChat()"
+    style="width: 60px; height: 60px; z-index: 1050"
+  >
     💬
   </button>
 </div>
 
 <!-- Ventana del chatbot -->
-<div class="card position-fixed bottom-0 start-0 m-4" *ngIf="mostrarChat" style="width: 22rem; z-index: 1050;">
-  <div class="card-header d-flex justify-content-between align-items-center bg-primary text-white">
+<div
+  class="card position-fixed bottom-0 start-0 m-4"
+  *ngIf="mostrarChat"
+  style="width: 22rem; z-index: 1050"
+>
+  <div
+    class="card-header d-flex justify-content-between align-items-center bg-primary text-white"
+  >
     <strong>Chat Aulora</strong>
-    <button class="btn btn-sm btn-light" (click)="mostrarChat = false">✖</button>
+    <button class="btn btn-sm btn-light" (click)="mostrarChat = false">
+      ✖
+    </button>
   </div>
 
-  <div #chatBody class="card-body overflow-auto" style="max-height: 300px;">
+  <div #chatBody class="card-body overflow-auto" style="max-height: 300px">
     <div *ngFor="let mensaje of mensajes" class="mb-2">
       <div [ngClass]="mensaje.de === 'usuario' ? 'text-end' : 'text-start'">
-        <span [ngClass]="mensaje.de === 'usuario' ? 'badge bg-primary' : 'badge bg-secondary'"
+        <span
+          [ngClass]="
+            mensaje.de === 'usuario' ? 'badge bg-primary' : 'badge bg-secondary'
+          "
           class="d-inline-block text-wrap px-2 py-1"
-          style="max-width: 100%; white-space: normal; word-break: break-word;">
+          style="max-width: 100%; white-space: normal; word-break: break-word"
+        >
           {{ mensaje.texto }}
         </span>
       </div>
 
       <!-- Mostrar opciones si existen -->
-      <div *ngIf="mensaje.opciones?.length" class="mt-2 d-flex flex-wrap gap-2"
-        [ngClass]="mensaje.de === 'usuario' ? 'justify-content-end' : 'justify-content-start'">
-        <button *ngFor="let opcion of mensaje.opciones" class="btn btn-outline-secondary btn-sm"
-          (click)="seleccionarOpcion(opcion)">
+      <div
+        *ngIf="mensaje.opciones?.length"
+        class="mt-2 d-flex flex-wrap gap-2"
+        [ngClass]="
+          mensaje.de === 'usuario'
+            ? 'justify-content-end'
+            : 'justify-content-start'
+        "
+      >
+        <button
+          *ngFor="let opcion of mensaje.opciones"
+          class="btn btn-outline-secondary btn-sm"
+          (click)="seleccionarOpcion(opcion)"
+        >
           {{ opcion }}
         </button>
       </div>

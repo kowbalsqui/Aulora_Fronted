@@ -1,14 +1,15 @@
 <h4 class="mt-5 text-center">
   <i class="bi bi-journal-bookmark-fill me-2 text-primary"></i>
   <strong> {{ curso.titulo }} </strong>
-  <br><br>
+  <br /><br />
   <strong>Módulos del Curso</strong>
 </h4>
 
 <div *ngIf="authService.isProfesor()" class="text-end me-3 mb-3">
-  <button 
+  <button
     (click)="crearModulo()"
-    class="btn btn-outline-success mb-3 ms-auto d-block">
+    class="btn btn-outline-success mb-3 ms-auto d-block"
+  >
     ➕ Crear módulo
   </button>
 </div>
@@ -20,21 +21,38 @@
 
 <!-- CONTENEDOR UNA VEZ CARGADO -->
 <ng-template #contenidoModulos>
-  <div *ngIf="modulos.length > 0; else sinModulos" class="row justify-content-center mt-4">
+  <div
+    *ngIf="modulos.length > 0; else sinModulos"
+    class="row justify-content-center mt-4"
+  >
     <div class="col-md-10 col-lg-8">
       <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col" *ngFor="let modulo of modulos">
-          <div 
+          <div
             class="card h-100 text-center shadow-sm border-0 rounded-4 p-3 transition transform-hover"
-            (click)="verDetalle(modulo)" 
-            style="cursor: pointer;">
+            (click)="verDetalle(modulo)"
+            style="cursor: pointer"
+          >
+            <!-- Botón eliminar curso -->
+            <button
+              class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
+              (click)="eliminarModulo(modulo.id)"
+            >
+              ✖
+            </button>
             <div class="card-body">
-              <i class="bi bi-play-circle-fill text-success fs-2 mb-2 d-block"></i>
+              <i
+                class="bi bi-play-circle-fill text-success fs-2 mb-2 d-block"
+              ></i>
               <h5 class="card-title">{{ modulo.titulo }}</h5>
-              <p class="card-text text-muted small">Haz clic para ver el contenido completo</p>
-              <button *ngIf="authService.isProfesor()" 
-                      class="btn btn-outline-primary btn-sm mt-2"
-                      (click)="editarModulo(modulo); $event.stopPropagation()">
+              <p class="card-text text-muted small">
+                Haz clic para ver el contenido completo
+              </p>
+              <button
+                *ngIf="authService.isProfesor()"
+                class="btn btn-outline-primary btn-sm mt-2"
+                (click)="editarModulo(modulo); $event.stopPropagation()"
+              >
                 ✏️ Editar módulo
               </button>
             </div>
@@ -57,6 +75,9 @@
 <ng-template #sinModulos>
   <div class="text-center text-muted mt-4">
     <i class="bi bi-exclamation-circle fs-3"></i>
-    <p class="mt-2">El curso <strong>{{ curso.titulo }}</strong> aún no tiene módulos disponibles.</p>
+    <p class="mt-2">
+      El curso <strong>{{ curso.titulo }}</strong> aún no tiene módulos
+      disponibles.
+    </p>
   </div>
 </ng-template>
