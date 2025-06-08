@@ -71,6 +71,29 @@ export class RegistroComponent {
       formData.append('materia', this.materia);
     }
 
+  this.http.post<any>('http://34.236.97.194:8000/api/v1/register/', formData).subscribe({
+    next: () => {
+      // 🔥 Auto-login al registrarse
+      this.http.post<any>('http://34.236.97.194:8000/api/v1/login/', {
+        email: this.email,
+        password: this.password1
+      }).subscribe({
+        next: (loginRes) => {
+          localStorage.setItem('auth_token', loginRes.token);
+          localStorage.setItem('auth_user', JSON.stringify(loginRes.user));
+          this.successMessage = 'Registro y login exitosos. Redirigiendo...';
+          this.errorMessage = '';
+          setTimeout(() => this.router.navigate(['/']), 1500); // Cambia '/' si quieres otra ruta
+        },
+        error: () => {
+          this.successMessage = '';
+          this.errorMessage = 'Usuario creado, pero fallo al iniciar sesión automáticamente.';
+        }
+      });
+    },
+    error: (error) => {
+      this.errorMessage = 'Error en el registro: ' + JSON.stringify(error.error);
+      this.successMessage = '';
     if (this.foto_perfil) {
       formData.append('foto_perfil', this.foto_perfil);
     }

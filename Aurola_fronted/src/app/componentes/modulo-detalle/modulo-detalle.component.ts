@@ -33,7 +33,7 @@ export class ModuloDetalleComponent implements OnInit {
       Authorization: 'Token ' + this.authService.getToken()
     });
 
-    this.http.get(`http://localhost:8000/api/v1/modulos/${id}/`, { headers }).subscribe({
+    this.http.get(`http://34.236.97.194:8000/api/v1/modulos/${id}/`, { headers }).subscribe({
       next: (res) => {
         this.modulo = res;
         this.moduloCompletado = this.modulo.completado;
@@ -51,7 +51,7 @@ export class ModuloDetalleComponent implements OnInit {
   const token = this.authService.getToken();
   const headers = { Authorization: 'Token ' + token };
 
-  this.http.post(`http://localhost:8000/api/v1/modulos/${moduloId}/completar/`, {}, { headers })
+  this.http.post(`http://34.236.97.194:8000/api/v1/modulos/${moduloId}/completar/`, {}, { headers })
     .subscribe({
       next: (res: any) => {
         console.log('✅ Progreso actualizado:', res.progreso_curso);
