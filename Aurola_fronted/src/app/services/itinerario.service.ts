@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
 })
 export class ItinerarioService {
 
-  private baseUrl = 'http://34.236.97.194:8000/api/v1/itinerarios';
+  private baseUrl = 'http://localhost:8000/api/v1/itinerarios';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -21,7 +21,7 @@ export class ItinerarioService {
   }
 
   getMisItinerarios() {
-    return this.http.get<any>('http://34.236.97.194:8000/api/v1/mis-itinerarios/', {
+    return this.http.get<any>('http://localhost:8000/api/v1/mis-itinerarios/', {
       headers: {
         Authorization: `Token ${this.authService.getToken()}`
       }

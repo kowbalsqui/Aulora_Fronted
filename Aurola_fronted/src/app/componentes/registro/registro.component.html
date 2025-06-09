@@ -50,8 +50,11 @@
 
             <!-- Mostrar materia solo si el rol es profesor -->
             <div class="mb-3" *ngIf="rol === 'profesor'">
-              <label for="materia" class="form-label">Materia que imparte</label>
-              <input type="text" class="form-control" id="materia" [(ngModel)]="materia" name="materia" required>
+             <label for="materia" class="form-label">Materia que imparte</label>
+              <select class="form-select" id="materia" [(ngModel)]="materia" name="materia" required>
+                <option value="" disabled selected>Selecciona una materia</option>
+                <option *ngFor="let m of materias" [value]="m.nombre">{{ m.nombre }}</option>
+              </select>
             </div>
 
             <div class="mb-3">

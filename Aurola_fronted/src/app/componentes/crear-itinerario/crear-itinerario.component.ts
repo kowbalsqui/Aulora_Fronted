@@ -28,7 +28,7 @@ export class CrearItinerarioComponent implements OnInit {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
 
-    this.http.get('http://34.236.97.194:8000/api/v1/cursos/', { headers }).subscribe({
+    this.http.get('http://localhost:8000/api/v1/cursos/', { headers }).subscribe({
       next: (res: any) => this.cursos = res,
       error: (err) => console.error('Error al cargar cursos del profesor:', err)
     });
@@ -54,7 +54,7 @@ export class CrearItinerarioComponent implements OnInit {
       cursos: this.cursosSeleccionados
     };
 
-    this.http.post('http://34.236.97.194:8000/api/v1/itinerarios/', payload, { headers }).subscribe({
+    this.http.post('http://localhost:8000/api/v1/itinerarios/', payload, { headers }).subscribe({
       next: () => {
         this.successMessage = 'Itinerario creado exitosamente';
         setTimeout(() => this.router.navigate(['/']), 2000);

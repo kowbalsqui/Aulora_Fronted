@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 })
 export class CursoService {
 
-  private baseUrl = 'http://34.236.97.194:8000/api/v1/cursos';
+  private baseUrl = 'http://localhost:8000/api/v1/cursos';
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 

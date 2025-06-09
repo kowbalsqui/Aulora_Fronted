@@ -29,7 +29,7 @@ export class CrearCursoComponent {
 
   ngOnInit(): void {
     const token = this.authService.getToken();
-    this.http.get('http://34.236.97.194:8000/api/v1/categorias/', {
+    this.http.get('http://localhost:8000/api/v1/categorias/', {
       headers: {Authorization : 'Token ' + token}
     }).subscribe({
       next: (res: any) => {
@@ -65,7 +65,7 @@ export class CrearCursoComponent {
       foto: this.foto
     });
 
-    this.http.post('http://34.236.97.194:8000/api/v1/cursos/', formdata, {
+    this.http.post('http://localhost:8000/api/v1/cursos/', formdata, {
       headers: {
         'Authorization': 'Token ' + token
       }

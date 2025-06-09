@@ -306,12 +306,23 @@
             <strong>Precio:</strong> {{ curso.precio }} €
           </p>
 
-          <button
-            class="btn btn-outline-secondary w-100 mt-2"
-            (click)="irAlCurso(curso.id)"
-          >
-            Ver curso
-          </button>
+          <div class="d-flex flex-column gap-2 mt-2">
+            <button
+              class="btn btn-outline-secondary"
+              (click)="irAlCurso(curso.id)"
+            >
+              Ver curso
+            </button>
+
+            <button
+              *ngIf="authService.isProfesor()"
+              class="btn btn-warning"
+              (click)="editarCurso(curso.id)"
+            >
+              Editar curso
+            </button>
+          </div>
+
         </div>
       </div>
     </div>

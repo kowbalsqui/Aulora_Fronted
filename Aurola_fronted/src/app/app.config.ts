@@ -10,6 +10,6 @@ export const appConfig: ApplicationConfig = {
 };
 
 export const config = {
-  apiUrl: 'http://34.236.97.194:8000/api/v1/'
+  apiUrl: 'http://localhost:8000/api/v1/'
 };
 

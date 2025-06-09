@@ -212,6 +212,11 @@ export class InicioComponent implements OnInit, AfterViewChecked {
       });
   }
 
+  editarCurso(id: number): void {
+    this.router.navigate(['/editar-curso', id]);
+  }
+
+
   seleccionarOpcion(opcion: string): void {
     this.mensajeActual = opcion;
     this.enviarMensaje(opcion);

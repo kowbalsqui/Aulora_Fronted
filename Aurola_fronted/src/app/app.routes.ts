@@ -14,6 +14,7 @@ import { CrearItinerarioComponent } from './componentes/crear-itinerario/crear-i
 import { EditarItinerarioComponent } from './componentes/editar-itinerario/editar-itinerario.component';
 import { RecuperarPasswordComponent } from './componentes/recuperar-password/recuperar-password.component';
 import { ResetearPasswordComponent } from './componentes/resetear-password/resetear-password.component';
+import { EditarCursoComponent } from './componentes/editar-curso/editar-curso.component';
 
 export const routes: Routes = [
   { path: '', component: InicioComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'crear-itinerario', component: CrearItinerarioComponent},
   { path: 'itinerario/editar/:id', component: EditarItinerarioComponent },
   { path: 'recuperar', component: RecuperarPasswordComponent},
-  { path: 'resetear/:email', component: ResetearPasswordComponent}
+  { path: 'resetear/:email', component: ResetearPasswordComponent},
+  { path: 'editar-curso/:id', component: EditarCursoComponent }
 ];
 

@@ -4,7 +4,7 @@ FROM node:18 as build
 WORKDIR /app
 COPY . .
 
-RUN npm install
+RUN npm install --legacy-peer-deps
 RUN npm run build --prod
 RUN ls -lh /app/dist/aurola-fronted  # ✅ AQUÍ SÍ FUNCIONA
 

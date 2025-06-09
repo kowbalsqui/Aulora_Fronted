@@ -1,51 +1,55 @@
-<div class="container mt-5" *ngIf="!cargando && itinerario; else cargandoTpl">
-  <div class="card shadow-lg border-0">
-    <div class="card-header bg-primary text-white">
+<div class="container my-5" *ngIf="!cargando && itinerario; else cargandoTpl">
+  <div class="card shadow border-0 rounded-4">
+    <div class="card-header bg-primary text-white rounded-top-4">
       <h2 class="mb-0">{{ itinerario.titulo }}</h2>
     </div>
+
     <div class="card-body">
-       <!-- Botón para editar (solo para profesores) -->
-      <div *ngIf="authService.isProfesor()" class="text-end mb-3">
-        <button class="btn btn-outline-warning" (click)="editarItinerario(itinerario.id)">
-          ✏️ Editar itinerario
+      <!-- Botón de edición (profesores) -->
+      <div *ngIf="authService.isProfesor()" class="d-flex justify-content-end mb-3">
+        <button class="btn btn-warning btn-sm rounded-pill px-4" (click)="editarItinerario(itinerario.id)">
+          ✏️ Editar
         </button>
       </div>
-      <p class="lead">{{ itinerario.descripcion }}</p>
 
-      <div class="mb-3">
-        <span class="badge bg-info text-dark fs-6">
-          {{ itinerario.precio === 0 ? 'Gratis' : (itinerario.precio + ' €') }}
-        </span>
-      </div>
+      <!-- Descripción -->
+      <p class="text-muted fs-5 mb-4">{{ itinerario.descripcion }}</p>
 
-      <h4 class="mt-4">📚 Cursos incluidos</h4>
+      <!-- Cursos como tarjetas -->
+      <h5 class="fw-bold mb-3">📚 Cursos incluidos</h5>
 
-      <div *ngIf="itinerario.cursos_detalles?.length > 0; else sinCursos">
-        <ul class="list-group list-group-flush mt-3">
-          <li 
-            class="list-group-item d-flex justify-content-between align-items-start border-start border-3 border-primary"
-            *ngFor="let curso of itinerario.cursos_detalles">
-            <div class="me-auto">
-              <div class="fw-bold">{{ curso.titulo }}</div>
-              <small class="text-muted">{{ curso.descripcion }}</small>
+      <div *ngIf="itinerario.cursos_detalles?.length > 0; else sinCursos" class="row g-4">
+        <div class="col-12 col-sm-6 col-md-4" *ngFor="let curso of itinerario.cursos_detalles">
+          <div class="card h-100 shadow-sm border-0 rounded-3">
+            <img 
+              *ngIf="curso.foto" 
+              [src]="curso.foto" 
+              class="card-img-top rounded-top-3" 
+              [alt]="curso.titulo"
+              style="height: 180px; object-fit: cover; cursor: pointer"
+              (click)="irAlCurso(curso.id)"
+            />
+            <div class="card-body d-flex flex-column justify-content-between">
+              <h6 class="card-title text-truncate mb-3">{{ curso.titulo }}</h6>
+              <button class="btn btn-outline-primary btn-sm rounded-pill w-100 mt-auto" (click)="irAlCurso(curso.id)">
+                Entrar al curso
+              </button>
             </div>
-            <button class="btn btn-outline-primary btn-sm" (click)="irAlCurso(curso.id)">
-              Ver curso
-            </button>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
 
       <ng-template #sinCursos>
-        <p class="text-muted mt-3">Este itinerario no tiene cursos asignados todavía.</p>
+        <p class="text-muted fst-italic mt-3">Este itinerario no tiene cursos asignados todavía.</p>
       </ng-template>
     </div>
   </div>
 </div>
 
+<!-- Cargando -->
 <ng-template #cargandoTpl>
-  <div class="text-center mt-5">
+  <div class="d-flex flex-column align-items-center justify-content-center mt-5">
     <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-3">Cargando itinerario...</p>
+    <p class="mt-3 text-muted">Cargando itinerario...</p>
   </div>
 </ng-template>

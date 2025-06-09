@@ -1,0 +1,32 @@
+<div class="container mt-5">
+  <h2 class="text-center text-primary mb-4">✏️ Editar Curso</h2>
+
+  <div *ngIf="successMessage" class="alert alert-success text-center">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">{{ errorMessage }}</div>
+
+  <form (ngSubmit)="guardarCambios()">
+    <div class="mb-3">
+      <label class="form-label fw-bold">Título</label>
+      <input type="text" class="form-control" [(ngModel)]="titulo" name="titulo" required />
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Descripción</label>
+      <textarea class="form-control" [(ngModel)]="descripcion" name="descripcion" rows="4" required></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-bold">Precio (€)</label>
+      <input type="number" class="form-control" [(ngModel)]="precio" name="precio" min="0" required />
+    </div>
+
+    <div class="mb-4">
+      <label class="form-label fw-bold">Categoría</label>
+      <select class="form-select" [(ngModel)]="categoria_id" name="categoria_id" required disabled>
+        <option [ngValue]="categoria_id">{{ categoria_nombre }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">💾 Guardar cambios</button>
+  </form>
+</div>

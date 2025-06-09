@@ -63,7 +63,7 @@ export class ModuloFormularioComponent implements OnInit {
     const token = this.authService.getToken();
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
   
-    this.http.get<any>(`http://34.236.97.194:8000/api/v1/modulos/${this.modulo_id}/`, { headers }).subscribe({
+    this.http.get<any>(`http://localhost:8000/api/v1/modulos/${this.modulo_id}/`, { headers }).subscribe({
       next: (modulo) => {
         this.titulo = modulo.titulo;
         this.contenido = modulo.contenido;
@@ -95,8 +95,8 @@ export class ModuloFormularioComponent implements OnInit {
   
     const headers = new HttpHeaders({ Authorization: 'Token ' + token });
     const request = this.modulo_id
-      ? this.http.put(`http://34.236.97.194:8000/api/v1/modulos/${this.modulo_id}/`, formData, { headers })
-      : this.http.post(`http://34.236.97.194:8000/api/v1/modulos/`, formData, { headers });
+      ? this.http.put(`http://localhost:8000/api/v1/modulos/${this.modulo_id}/`, formData, { headers })
+      : this.http.post(`http://localhost:8000/api/v1/modulos/`, formData, { headers });
   
     request.subscribe({
       next: () => {

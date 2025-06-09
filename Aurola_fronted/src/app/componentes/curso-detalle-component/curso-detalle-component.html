@@ -35,6 +35,7 @@
           >
             <!-- Botón eliminar curso -->
             <button
+              *ngIf="authService.isProfesor()"
               class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2"
               (click)="eliminarModulo(modulo.id)"
             >

@@ -38,7 +38,7 @@ export class ExplorarCursosComponent implements OnInit {
       this.cargarCursos();
     });
 
-    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-cursos/', { headers }).subscribe({
+    this.http.get<any[]>('http://localhost:8000/api/v1/mis-cursos/', { headers }).subscribe({
       next: (res) => {
         this.misCursosIds = new Set(res.map(curso => curso.id));
         this.cargarCursos();
@@ -46,7 +46,7 @@ export class ExplorarCursosComponent implements OnInit {
       error: () => console.error('Error al cargar mis cursos')
     });
 
-    this.http.get<any[]>('http://34.236.97.194:8000/api/v1/mis-itinerarios/', { headers }).subscribe({
+    this.http.get<any[]>('http://localhost:8000/api/v1/mis-itinerarios/', { headers }).subscribe({
       next: (res) => {
         this.misItinerariosIds = new Set(res.map(it => it.id));
         this.cargarCursos();
@@ -67,7 +67,7 @@ export class ExplorarCursosComponent implements OnInit {
 
     const queryString = params.length ? `?${params.join('&')}` : '';
 
-    this.http.get<any[]>(`http://34.236.97.194:8000/api/v1/explorar-cursos/${queryString}`, { headers })
+    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-cursos/${queryString}`, { headers })
       .subscribe({
         next: (res) => {
           this.cursosPorCategoria = {};
@@ -85,7 +85,7 @@ export class ExplorarCursosComponent implements OnInit {
         error: (err) => console.error('Error cargando cursos:', err)
       });
 
-    this.http.get<any[]>(`http://34.236.97.194:8000/api/v1/explorar-itinerarios/${queryString}`, { headers })
+    this.http.get<any[]>(`http://localhost:8000/api/v1/explorar-itinerarios/${queryString}`, { headers })
       .subscribe({
         next: (res) => {
           this.itinerarios = res.map(it => ({
@@ -101,7 +101,7 @@ export class ExplorarCursosComponent implements OnInit {
     if (curso.precio > 0) {
       window.location.href = `/pago/curso/${curso.id}`;
     } else {
-      this.http.post(`http://34.236.97.194:8000/api/v1/cursos/${curso.id}/inscribirse/`, {}, {
+      this.http.post(`http://localhost:8000/api/v1/cursos/${curso.id}/inscribirse/`, {}, {
         headers: { Authorization: 'Token ' + this.authService.getToken() }
       }).subscribe({
         next: () => {
@@ -120,7 +120,7 @@ export class ExplorarCursosComponent implements OnInit {
     if (itinerario.precio > 0) {
       window.location.href = `/pago/itinerario/${itinerario.id}`;
     } else {
-      this.http.post(`http://34.236.97.194:8000/api/v1/itinerarios/${itinerario.id}/inscribirse/`, {}, {
+      this.http.post(`http://localhost:8000/api/v1/itinerarios/${itinerario.id}/inscribirse/`, {}, {
         headers: { Authorization: 'Token ' + this.authService.getToken() }
       }).subscribe({
         next: () => {

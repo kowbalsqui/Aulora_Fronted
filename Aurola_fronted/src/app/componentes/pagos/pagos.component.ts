@@ -85,8 +85,8 @@ export class PagosComponent implements OnInit {
     this.procesando = true;
 
     const url = this.tipo === 'curso'
-      ? `http://34.236.97.194:8000/api/v1/cursos/${this.id}/inscribirse/`
-      : `http://34.236.97.194:8000/api/v1/itinerarios/${this.id}/pagar/`;
+      ? `http://localhost:8000/api/v1/cursos/${this.id}/inscribirse/`
+      : `http://localhost:8000/api/v1/itinerarios/${this.id}/pagar/`;
 
     const headers = { Authorization: 'Token ' + localStorage.getItem('auth_token') };
 

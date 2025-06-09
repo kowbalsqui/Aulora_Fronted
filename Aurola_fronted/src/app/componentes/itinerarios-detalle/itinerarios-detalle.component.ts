@@ -35,7 +35,7 @@ export class ItinerarioDetalleComponent implements OnInit {
 
   const headers = new HttpHeaders({ Authorization: `Token ${token}` });
 
-  this.http.get<any>(`http://34.236.97.194:8000/api/v1/itinerarios/${id}/`, { headers })
+  this.http.get<any>(`http://localhost:8000/api/v1/itinerarios/${id}/`, { headers })
     .subscribe({
       next: (res) => {
         this.itinerario = res;
